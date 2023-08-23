@@ -5,18 +5,6 @@ import chile from "./../assets/comunas.json";
 import React from "react";
 
 function Map() {
-  const data1 = [2, 3, 4, 5, 4, 4, 5];
-  const meses = [
-    "enero",
-    "febrero",
-    "marzo",
-    "abril",
-    "mayo",
-    "junio",
-    "julio",
-    "agosto",
-  ];
-
   console.log(chile);
   const highlightFeature = (e: any) => {
     const layer = e.target;
