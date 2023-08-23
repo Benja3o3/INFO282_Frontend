@@ -6,6 +6,8 @@
 }
 
 .info {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
   border: 1px black solid;
 }
 .map {
