@@ -1,14 +1,12 @@
-FROM node:18.17.1
-
+FROM node:lts-alpine 
 WORKDIR /app
+COPY package*.json ./
+RUN npm install --silent && \
+    npm cache clean --force && \
+    rm -rf /tmp/* /var/tmp/* /usr/share/man /tmp/* /var/tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
+COPY . .
+RUN npm run build
+
 
 EXPOSE 4051
-
-COPY package.json package-lock.json ./
-RUN npm install --silent
-COPY . ./
-
-CMD ["npm","run","dev"]
-
-
-
+CMD ["npm", "run", "dev"]
