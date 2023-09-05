@@ -1,0 +1,7 @@
+version: '3'
+services:
+  bienestar-view:
+    build: ./
+    ports:
+      - "4051:4051"
+    container_name: bienestar-view
