@@ -2,10 +2,9 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import chile from "./../assets/comunas.json";
 
-import React from "react";
-
 function Map() {
   console.log(chile);
+
   const highlightFeature = (e: any) => {
     const layer = e.target;
     layer.setStyle({
@@ -39,21 +38,21 @@ function Map() {
       mouseout: resetHighlight,
       click: (e: any) => {
         showPopup(feature, layer);
-        console.log(feature);
+        console.log(e);
       },
     });
   };
+
   return (
-    <MapContainer
-      center={[-39.808333, -73.241667]}
-      zoom={9}
-      scrollWheelZoom={false}
-    >
+    <MapContainer center={[-39.808333, -73.241667]} zoom={9} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      ></TileLayer>
-      <GeoJSON data={chile.features} onEachFeature={onEachFeature}></GeoJSON>
+      />
+      <GeoJSON
+        data={chile as any} // Añade "as any" para evitar errores de tipo
+        onEachFeature={onEachFeature}
+      />
     </MapContainer>
   );
 }
