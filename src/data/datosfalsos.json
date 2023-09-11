@@ -1,0 +1,181 @@
+{
+    "indicadores": [
+      {
+        "nombre": "Indicador1",
+        "valor": 0.25,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.14
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.56
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.72
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.89
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador2",
+        "valor": 0.62,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.31
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.78
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.42
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.95
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador3",
+        "valor": 0.47,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.18
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.67
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.54
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.39
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador4",
+        "valor": 0.83,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.72
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.21
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.95
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.63
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador5",
+        "valor": 0.14,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.08
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.41
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.76
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.29
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador6",
+        "valor": 0.76,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.62
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.87
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.51
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.24
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador7",
+        "valor": 0.92,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.33
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.71
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.58
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.46
+          }
+        ]
+      },
+      {
+        "nombre": "Indicador8",
+        "valor": 0.38,
+        "variables": [
+          {
+            "nombre": "Variable1",
+            "valor": 0.57
+          },
+          {
+            "nombre": "Variable2",
+            "valor": 0.23
+          },
+          {
+            "nombre": "Variable3",
+            "valor": 0.81
+          },
+          {
+            "nombre": "Variable4",
+            "valor": 0.68
+          }
+        ]
+      }
+    ]
+  }
+  

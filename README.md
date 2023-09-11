@@ -1,4 +1,11 @@
-# Despliegue [ Momentaneo ]
+# React + TypeScript + Vite
 
-docker build -t my-bienestar-image .
-docker run -p 4051:4051 my-bienestar-image
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+extra:
+npm install -D tailwindcss postcss autoprefixer
+npm install leaflet
+npm install chart.js
+npm install react-chartjs-2

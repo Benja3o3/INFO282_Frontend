@@ -1,31 +1,40 @@
-import React from "react";
-import "./indicator.css";
+import { COLOR_WELFARE } from "./constants.tsx";
+import "tailwindcss/tailwind.css";
 
-export function Indicador(props) {
-  const handleClick = () => {
-    // Manejar el clic del indicador aquí, por ejemplo, puedes mostrar una alerta con el valor del indicador.
-    alert(`Valor de ${props.nombre} `);
+const Indicator = ({ progress, imageUrl }) => {
+  const getColor = () => {
+    let currentColor = "#FF0000";
+
+    for (const key in COLOR_WELFARE) {
+      if (progress <= parseInt(key)) {
+        currentColor = COLOR_WELFARE[key];
+        break;
+      }
+    }
+    return currentColor;
   };
 
   return (
-    <>
-      <header className="tw-followCard-header">
-        <img
-          className="tw-followCard-img"
-          onClick={handleClick}
-          src={`https://unavatar.io/luffy`}
-          alt="avatar"
-        />
-        <div className="tw-followCard-info">
-          <button
-            className="indicador-indv"
-            onClick={handleClick}
-            style={{ cursor: "pointer" }}
-          >
-            {props.nombre} {props.valor}
-          </button>
+    <div className="h-screen-[50%] flex m-2 p-2 items-center">
+      <div className="">
+        <button className="bg-white rounded-full">
+          <img className="h-10" src={imageUrl} />
+        </button>
+      </div>
+
+      <div className="grid items-center w-full ml-2 bg-white rounded-full h-1/2 font-bold">
+        <div
+          className="rounded-full"
+          style={{
+            width: `${progress}%`,
+            backgroundColor: getColor(),
+          }}
+        >
+          {Math.round(progress)}%
         </div>
-      </header>
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default Indicator;

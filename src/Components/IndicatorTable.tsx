@@ -1,19 +1,32 @@
-import React from "react";
-import { Indicador } from "./Indicator"; // Asegúrate de ajustar la ruta a tu archivo de Indicador
-import "./indicator.css";
+import Indicator from "./Indicator";
+import { INDICATOR_DATA } from "./constants.tsx";
+import "tailwindcss/tailwind.css";
 
-export function IndicatorTable(props) {
+const onclick = (e) => {
+  alert("Exportar datos en CSV o XML");
+};
+
+export default function IndicatorTable() {
   return (
-    <div className="resumen-indicadores">
-      <h3>Resumen de Indicadores</h3>
-      <Indicador nombre="Indicador 1" valor={props.indicador1} />
-      <Indicador nombre="Indicador 2" valor={props.indicador2} />
-      <Indicador nombre="Indicador 3" valor={props.indicador3} />
-      <Indicador nombre="Indicador 4" valor={props.indicador4} />
-      <Indicador nombre="Indicador 5" valor={props.indicador5} />
-      <Indicador nombre="Indicador 6" valor={props.indicador6} />
-      <Indicador nombre="Indicador 7" valor={props.indicador7} />
-      <Indicador nombre="Indicador 8" valor={props.indicador8} />
+    <div className="h-screen w-full rounded-lg grid">
+      <div>
+        {INDICATOR_DATA.map((data, index) => (
+          <Indicator
+            key={index}
+            progress={data.progress}
+            imageUrl={data.imageUrl}
+          />
+        ))}
+      </div>
+      <hr className="" />
+      <div className="text-white place-items-center">
+        <button
+          onClick={onclick}
+          className="bg-[#1aae9f] p-2 rounded-full w-1/2"
+        >
+          Export data
+        </button>
+      </div>
     </div>
   );
 }
