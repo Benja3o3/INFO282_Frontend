@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
-import L, { Map as LeafletMap, GeoJSON } from "leaflet";
+import L, { Map as LeafletMap, GeoJSON, Control } from "leaflet";
 import { SHAPE, defaultStyle, clickStyle } from "./constants";
 import "leaflet/dist/leaflet.css";
 import "tailwindcss/tailwind.css";
 
+interface CustomControl extends Control {
+  _div: HTMLElement;
+  update: () => void;
+}
+
 export default function Map() {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
-  const [mapInstance, setMapInstance] = useState<LeafletMap | null>(null);
+  const [mapInstance, setMapInstance] = useState<LeafletMap>();
   const [propName, setPropName] = useState("COUNTRY");
+  const [infoInstance, setInfoInstance] = useState<
+    CustomControl | null | undefined
+  >(null);
 
   useEffect(() => {
-    // here the hook define all principal characteristic for the map, this is renderer only once
     const map = L.map("map", {
       maxBoundsViscosity: 1.0,
       bounceAtZoomLimits: false,
@@ -23,10 +30,28 @@ export default function Map() {
       maxBounds: L.latLngBounds(L.latLng(-20, -110.0), L.latLng(-55.0, -41.0)),
     }).setView([-35.675147, -100.542969], 4);
 
-    L.control.zoom({ position: "topright" }).addTo(map);
+    L.control.zoom({ position: "topleft" }).addTo(map);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
+    var info = new L.Control() as CustomControl;
+
+    info.onAdd = function () {
+      this._div = L.DomUtil.create(
+        "div",
+        "info p-2 bg-white bg-opacity-80 shadow-md rounded-md"
+      );
+      this.update();
+      return this._div;
+    };
+
+    info.update = function () {
+      this._div.innerHTML = "<h4>Información</h4> <b> Chile </b><br />";
+    };
+
+    info.addTo(map);
+
+    setInfoInstance(info);
     setMapInstance(map);
 
     return () => {
@@ -41,7 +66,15 @@ export default function Map() {
       layer.setStyle(defaultStyle);
     }
     e.layer.setStyle(clickStyle);
-    console.log(name);
+
+    if (infoInstance && mapInstance) {
+      infoInstance.update = function () {
+        this._div.innerHTML =
+          "<h4>Información</h4>" + "<b>" + name + "</b><br/>";
+      };
+
+      infoInstance.addTo(mapInstance);
+    }
   };
 
   useEffect(() => {
@@ -54,6 +87,7 @@ export default function Map() {
           mapInstance.removeLayer(currentLayer);
           const [prop, newLayer, newBounds] = SHAPE[zoom];
           setPropName(prop);
+
           newLayer.addTo(mapInstance);
           setLayer(newLayer);
           setZoomCurrent(zoom);
@@ -61,7 +95,6 @@ export default function Map() {
         }
       });
     }
-
     layer.on("click", (e) => handleLayerClick(e, propName));
   }, [mapInstance, zoomCurrent]);
 

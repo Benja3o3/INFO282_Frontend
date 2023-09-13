@@ -1,6 +1,6 @@
-import BarChart from "../components/BarChart.tsx";
-import LineChart from "../components/LineChart.tsx";
-import PieChart from "../components/PieChart.tsx";
+import BarChart from "../Components/BarChart.tsx";
+import LineChart from "../Components/LineChart.tsx";
+import PieChart from "../Components/PieChart.tsx";
 
 import "tailwindcss/tailwind.css";
 

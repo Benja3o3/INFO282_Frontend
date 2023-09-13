@@ -1,6 +1,6 @@
-import Map from "./components/Map.tsx";
-import Charts from "./components/Charts.tsx";
-import IndicatorTable from "./components/IndicatorTable.tsx";
+import Map from "./Components/Map.tsx";
+import Charts from "./Components/Charts.tsx";
+import IndicatorTable from "./Components/IndicatorTable.tsx";
 
 import "tailwindcss/tailwind.css";
 

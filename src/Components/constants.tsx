@@ -3,28 +3,13 @@ import { FeatureCollection } from "geojson";
 import country from "../data/country.json";
 import regions from "../data/regions.json";
 import communes from "../data/communes.json";
-
-interface Shape {
-  [key: number]: [string, GeoJSON, LatLngBoundsExpression];
-}
-
-export const SHAPE: Shape = {
-  4: [
-    "COUNTRY",
-    L.geoJSON(country as FeatureCollection),
-    L.latLngBounds(L.latLng(-10, -110.0), L.latLng(-60.0, -40.0)),
-  ],
-  6: [
-    "Region",
-    L.geoJSON(regions as FeatureCollection),
-    L.latLngBounds(L.latLng(-17, -65.0), L.latLng(-58.0, -77.0)),
-  ],
-  8: [
-    "Comuna",
-    L.geoJSON(communes as FeatureCollection),
-    L.latLngBounds(L.latLng(-16, -65.0), L.latLng(-58.0, -78.0)),
-  ],
-};
+import seguridad from "../img/seguridad.png";
+import educacional from "../img/educacional.png";
+import salud from "../img/salud.png";
+import tecnologico from "../img/tecnologico.png";
+import socioEconomico from "../img/socioEconomico.png";
+import ecologico from "../img/ecologico.png";
+import movilidad from "../img/movilidad.png";
 
 export const defaultStyle = {
   fillColor: "#ff7800", // Color original de relleno
@@ -44,6 +29,28 @@ export const clickStyle = {
   fillOpacity: 0.7,
 };
 
+interface Shape {
+  [key: number]: [string, GeoJSON, LatLngBoundsExpression];
+}
+
+export const SHAPE: Shape = {
+  4: [
+    "COUNTRY",
+    L.geoJSON(country as FeatureCollection).setStyle(defaultStyle),
+    L.latLngBounds(L.latLng(-10, -110.0), L.latLng(-60.0, -40.0)),
+  ],
+  6: [
+    "Region",
+    L.geoJSON(regions as FeatureCollection).setStyle(defaultStyle),
+    L.latLngBounds(L.latLng(-17, -65.0), L.latLng(-58.0, -77.0)),
+  ],
+  8: [
+    "Comuna",
+    L.geoJSON(communes as FeatureCollection).setStyle(defaultStyle),
+    L.latLngBounds(L.latLng(-16, -65.0), L.latLng(-58.0, -78.0)),
+  ],
+};
+
 interface ColorWelfare {
   [key: number]: string;
 }
@@ -59,35 +66,38 @@ export const COLOR_WELFARE: ColorWelfare = {
 
 export const INDICATOR_DATA = [
   {
+    name: "Seguridad",
     progress: 50,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/2997/2997051.png",
+    imageUrl: seguridad,
   },
   {
+    name: "Educacional",
     progress: 90,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/898/898655.png",
+    imageUrl: educacional,
   },
   {
+    name: "Salud",
     progress: 50,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/2997/2997051.png",
+    imageUrl: salud,
   },
   {
+    name: "Tecnologico",
     progress: 90,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/898/898655.png",
+    imageUrl: tecnologico,
   },
   {
+    name: "SocioEconomico",
     progress: 20,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/1320/1320521.png",
+    imageUrl: socioEconomico,
   },
   {
+    name: "Ecologico",
     progress: 78,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/2953/2953363.png",
+    imageUrl: ecologico,
   },
   {
+    name: "Movilidad",
     progress: 10,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/2953/2953363.png",
-  },
-  {
-    progress: 10,
-    imageUrl: "https://cdn-icons-png.flaticon.com/128/2953/2953363.png",
+    imageUrl: movilidad,
   },
 ];

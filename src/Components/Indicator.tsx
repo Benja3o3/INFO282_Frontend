@@ -1,7 +1,9 @@
+// Indicator.js
+import React, { useState } from "react";
 import { COLOR_WELFARE } from "./constants.tsx";
 import "tailwindcss/tailwind.css";
 
-const Indicator = ({ progress, imageUrl }) => {
+const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
   const getColor = () => {
     let currentColor = "#FF0000";
 
@@ -14,10 +16,20 @@ const Indicator = ({ progress, imageUrl }) => {
     return currentColor;
   };
 
+  const handleButtonClick = () => {
+    // Llamar a la función onClick con el nombre como argumento
+    onClick(name);
+  };
+
   return (
-    <div className="h-screen-[50%] flex m-2 p-2 items-center">
+    <div className="h-screen-[50%] flex m-2 p-2 items-center ">
       <div className="">
-        <button className="bg-white rounded-full">
+        <button
+          className={`bg-white rounded-full overflow-hidden ${
+            isSelected ? "bg-green-400 " : " "
+          }`}
+          onClick={handleButtonClick}
+        >
           <img className="h-10" src={imageUrl} />
         </button>
       </div>
