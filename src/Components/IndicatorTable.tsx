@@ -49,7 +49,11 @@ export default function IndicatorTable({ selectedNameMap }) {
           />
         ))}
       </div>
-      <hr className="" />
+      <div>
+        {/* Aqui poner los sub indicadores cuando el estado del boton que tiene los 3 puntos cambia a true desplegar las variables */}
+        {/* por defecto deben estar ocultos */}
+      </div>
+      <hr className="border-2 border-solid rounded-lg border-white m-3" />
       <div className="text-white place-items-center">
         <button
           onClick={onclickData}

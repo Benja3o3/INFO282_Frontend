@@ -1,6 +1,13 @@
 import { COLOR_WELFARE } from "../constants/styles.constants";
+import { useState } from "react";
+import dot from "../assets/dot.svg";
 
 const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
+  const [clickButton, setClickButton] = useState(false);
+
+  const handleClick = () => {
+    setClickButton(!clickButton);
+  };
   const getColor = () => {
     let currentColor = "#FF0000";
 
@@ -23,7 +30,7 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
         isSelected ? "bg-green-400" : ""
       }`}
     >
-      <div className="">
+      <div>
         <button
           className="rounded-lg overflow-hidden hover:bg-blue-500"
           onClick={handleButtonClick}
@@ -46,6 +53,19 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
         >
           {Math.round(progress)}%
         </div>
+      </div>
+      <div className="flex items-center ml-1 rounded-lg">
+        <button
+          className={`rounded-lg hover:bg-blue-500 ${
+            clickButton ? "bg-white" : ""
+          }`}
+        >
+          <img
+            src={dot}
+            className="transform rotate-90"
+            onClick={handleClick}
+          />
+        </button>
       </div>
     </div>
   );
