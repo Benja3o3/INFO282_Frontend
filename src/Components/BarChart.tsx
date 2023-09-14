@@ -41,6 +41,7 @@ var meses = [
 var misoptions = {
   responsive: true,
   animation: false,
+
   plugins: {
     legend: {
       display: false,

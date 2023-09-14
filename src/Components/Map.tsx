@@ -4,12 +4,14 @@ import { SHAPE, defaultStyle, clickStyle } from "./constants";
 import "leaflet/dist/leaflet.css";
 import "tailwindcss/tailwind.css";
 
+
+
 interface CustomControl extends Control {
   _div: HTMLElement;
   update: () => void;
 }
 
-export default function Map() {
+export default function Map({ onNameMapChange }) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
   const [mapInstance, setMapInstance] = useState<LeafletMap>();
@@ -75,6 +77,7 @@ export default function Map() {
 
       infoInstance.addTo(mapInstance);
     }
+    onNameMapChange(name);
   };
 
   useEffect(() => {

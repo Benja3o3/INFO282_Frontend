@@ -9,3 +9,4 @@ npm install -D tailwindcss postcss autoprefixer
 npm install leaflet
 npm install chart.js
 npm install react-chartjs-2
+npm install axios
