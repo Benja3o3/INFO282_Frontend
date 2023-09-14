@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Indicator from "./Indicator";
-import { INDICATOR_DATA } from "./constants";
-import "tailwindcss/tailwind.css";
+import { INDICATOR_DATA } from "../constants/indicators.constants";
 import axios from "axios";
 
 const onclickData = () => {
@@ -18,7 +17,7 @@ export default function IndicatorTable({ selectedNameMap }) {
     // fetch("http://localhost:5002/indicador/1")
     //   .then((response) => response.json())
     //   .then((data) => console.log(data));
-    // Realiza aquí las peticiones, pero falta obtener la región o comuna seleccionada o el país completo
+    // Realiza aquí las peticiones??? estudiar esto
     axios
       .get("https://pokeapi.co/api/v2/pokemon/ditto")
       .then((response) => {
@@ -54,7 +53,7 @@ export default function IndicatorTable({ selectedNameMap }) {
       <div className="text-white place-items-center">
         <button
           onClick={onclickData}
-          className="bg-[#1aae9f] p-2 rounded-full w-1/2"
+          className="bg-blue-500 p-2 rounded-full w-1/2 text-[1vw] font-semibold hover:bg-green-400"
         >
           Export data
         </button>

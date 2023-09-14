@@ -1,5 +1,4 @@
-import { COLOR_WELFARE } from "./constants.tsx";
-import "tailwindcss/tailwind.css";
+import { COLOR_WELFARE } from "../constants/styles.constants";
 
 const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
   const getColor = () => {
@@ -15,30 +14,31 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
   };
 
   const handleButtonClick = () => {
-    // Llamar a la función onClick con el nombre como argumento
     onClick(name);
   };
 
   return (
     <div
-      className={`h-screen-[50%] flex m-2 p-2 items-center rounded-lg ${
-        isSelected ? "bg-green-400" : "" // Cambiar el color de fondo aquí
+      className={`h-screen-[50%] flex m-[1vh] p-[1vh] items-center rounded-lg ${
+        isSelected ? "bg-green-400" : ""
       }`}
     >
       <div className="">
         <button
-          className={`rounded-lg overflow-hidden ${
-            isSelected ? "bg-green-400" : ""
-          }`}
+          className="rounded-lg overflow-hidden hover:bg-blue-500"
           onClick={handleButtonClick}
         >
-          <img className="h-10" src={imageUrl} alt={name} />
+          <img
+            className={`h-[3vw] ${isSelected ? "bg-white" : ""}`}
+            src={imageUrl}
+            alt={name}
+          />
         </button>
       </div>
 
       <div className="grid items-center w-full ml-2 bg-white rounded-full h-1/2 font-bold">
         <div
-          className="rounded-full"
+          className="rounded-full text-[1vw]"
           style={{
             width: `${progress}%`,
             backgroundColor: getColor(),

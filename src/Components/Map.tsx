@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import L, { Map as LeafletMap, GeoJSON, Control } from "leaflet";
-import { SHAPE, defaultStyle, clickStyle } from "./constants";
+import { SHAPE } from "../constants/layers.constants";
+import { defaultStyle, clickStyle } from "../constants/styles.constants";
 import "leaflet/dist/leaflet.css";
-import "tailwindcss/tailwind.css";
-
-
 
 interface CustomControl extends Control {
   _div: HTMLElement;
@@ -16,9 +14,9 @@ export default function Map({ onNameMapChange }) {
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
   const [mapInstance, setMapInstance] = useState<LeafletMap>();
   const [propName, setPropName] = useState("COUNTRY");
-  const [infoInstance, setInfoInstance] = useState<
-    CustomControl | null | undefined
-  >(null);
+  const [infoInstance, setInfoInstance] = useState<CustomControl>(
+    new L.Control() as CustomControl
+  );
 
   useEffect(() => {
     const map = L.map("map", {
@@ -36,9 +34,7 @@ export default function Map({ onNameMapChange }) {
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-    var info = new L.Control() as CustomControl;
-
-    info.onAdd = function () {
+    infoInstance.onAdd = function () {
       this._div = L.DomUtil.create(
         "div",
         "info p-2 bg-white bg-opacity-80 shadow-md rounded-md"
@@ -47,13 +43,13 @@ export default function Map({ onNameMapChange }) {
       return this._div;
     };
 
-    info.update = function () {
+    infoInstance.update = function () {
       this._div.innerHTML = "<h4>Información</h4> <b> Chile </b><br />";
     };
 
-    info.addTo(map);
+    infoInstance.addTo(map);
 
-    setInfoInstance(info);
+    setInfoInstance(infoInstance);
     setMapInstance(map);
 
     return () => {
@@ -95,6 +91,13 @@ export default function Map({ onNameMapChange }) {
           setLayer(newLayer);
           setZoomCurrent(zoom);
           mapInstance.setMaxBounds(newBounds);
+
+          infoInstance.update = function () {
+            this._div.innerHTML =
+              "<h4>Información</h4> <b> Selecciona un punto en el mapa </b><br />";
+          };
+
+          infoInstance.addTo(mapInstance);
         }
       });
     }

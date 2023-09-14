@@ -1,8 +1,6 @@
-import BarChart from "../Components/BarChart.tsx";
-import LineChart from "../Components/LineChart.tsx";
-import PieChart from "../Components/PieChart.tsx";
-
-import "tailwindcss/tailwind.css";
+import BarChart from "./BarChart.tsx";
+import LineChart from "./LineChart.tsx";
+import PieChart from "./PieChart.tsx";
 
 export default function Charts() {
   return (

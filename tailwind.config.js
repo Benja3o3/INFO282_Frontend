@@ -1,12 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./src/App.tsx",
-    "./src/components/Map.tsx",
-    "./src/components/Charts.tsx",
-    "./src/components/Indicator.tsx",
-    "./src/components/IndicatorTable.tsx",
-  ],
+  content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {},
   },
