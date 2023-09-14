@@ -27,7 +27,7 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
     >
       <div className="">
         <button
-          className={`rounded-full overflow-hidden ${
+          className={`rounded-lg overflow-hidden ${
             isSelected ? "bg-green-400" : ""
           }`}
           onClick={handleButtonClick}
