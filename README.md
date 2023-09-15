@@ -1,4 +1,13 @@
-# Despliegue [ Momentaneo ]
+# Despliegue 
 
-docker build -t my-bienestar-image .
-docker run -p 4051:4051 my-bienestar-image
+
+develop:
+``` 
+    docker-compose -f docker-compose.dev.yml up -d
+```
+
+deploy:
+``` 
+    docker-compose up -d
+```
+
