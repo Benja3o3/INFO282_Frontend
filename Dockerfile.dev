@@ -1,0 +1,10 @@
+# STAGE 1: Build the development environment
+FROM node:lts-bullseye 
+WORKDIR /app
+RUN npm -g 
+
+COPY package*.json ./
+RUN npm ci
+EXPOSE 4001
+COPY . .
+CMD ["npm", "run", "dev"]
