@@ -1,4 +1,5 @@
 import { Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -40,8 +41,9 @@ var meses = [
 
 var misoptions = {
   responsive: true,
-  animation: false,
-
+  animation: {
+    duration: 0,
+  },
   plugins: {
     legend: {
       display: false,

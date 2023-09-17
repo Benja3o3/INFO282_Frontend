@@ -1,5 +1,5 @@
 export const defaultStyle = {
-  fillColor: "#ff7800", // Color original de relleno
+  fillColor: "#ff7800",
   weight: 2,
   opacity: 1,
   color: "white",
@@ -21,10 +21,10 @@ interface ColorWelfare {
 }
 
 export const COLOR_WELFARE: ColorWelfare = {
-  0: "#7cc200", // Verde
-  20: "#a1cc47", // Verde claro
-  40: "#ede96e", // Amarillo
-  60: "#ffba5f", // Naranjo
-  80: "#ffa21f", // Naranjo oscuro
-  100: "#FF0000", // Rojo
+  0: "#7cc200",
+  20: "#a1cc47",
+  40: "#ede96e",
+  60: "#ffba5f",
+  80: "#ffa21f",
+  100: "#FF0000",
 };

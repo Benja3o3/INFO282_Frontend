@@ -1,8 +1,22 @@
-import { COLOR_WELFARE, clickStyle } from "../constants/styles.constants";
+import { COLOR_WELFARE } from "../constants/styles.constants";
 import { useState } from "react";
 import Arrow from "../assets/Arrow";
 
-const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
+interface IndicadorProps {
+  progress: number;
+  imageUrl: string;
+  name: string;
+  onClick: (name: string) => void;
+  isSelected: boolean;
+}
+
+const Indicator = ({
+  progress,
+  imageUrl,
+  name,
+  onClick,
+  isSelected,
+}: IndicadorProps) => {
   const [clickButton, setClickButton] = useState(false);
 
   const handleClick = () => {
@@ -62,7 +76,7 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
                 !clickButton ? "rotate-90" : ""
               }`}
             >
-              <Arrow color={`${clickButton ? "red" : "black"}`} />
+              <Arrow color={`${clickButton ? "blue" : "black"}`} />
             </div>
           </button>
         </div>
@@ -74,12 +88,12 @@ const Indicator = ({ progress, imageUrl, name, onClick, isSelected }) => {
               <th>Variables:</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             <tr>Indicator 1</tr>
             <tr>Indicator 2</tr>
             <tr>Indicator 3</tr>
             <tr>Indicator n</tr>
-          </tbody>
+          </tbody> */}
         </table>
       </div>
     </>

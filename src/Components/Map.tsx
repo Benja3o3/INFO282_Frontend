@@ -9,7 +9,11 @@ interface CustomControl extends Control {
   update: () => void;
 }
 
-export default function Map({ onNameMapChange }) {
+interface MapProps {
+  onNameMapChange: (name: string) => void;
+}
+
+export default function Map({ onNameMapChange }: MapProps) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
   const [mapInstance, setMapInstance] = useState<LeafletMap>();
@@ -44,7 +48,8 @@ export default function Map({ onNameMapChange }) {
     };
 
     infoInstance.update = function () {
-      this._div.innerHTML = "<h4>Información</h4> <b> Chile </b><br />";
+      this._div.innerHTML =
+        "<h4>Información</h4> <b> Selecciona un punto en el mapa </b><br />";
     };
 
     infoInstance.addTo(map);
@@ -73,6 +78,14 @@ export default function Map({ onNameMapChange }) {
 
       infoInstance.addTo(mapInstance);
     }
+    if (e.layer.feature.properties.cod_comuna != undefined) {
+      console.log(e.layer.feature.properties.cod_comuna);
+    } else if (e.layer.feature.properties.codregion != undefined) {
+      console.log(e.layer.feature.properties.codregion);
+    } else {
+      console.log(e.layer.feature.properties.COUNTRY);
+    }
+
     onNameMapChange(name);
   };
 
