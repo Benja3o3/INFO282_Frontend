@@ -64,9 +64,10 @@ export default function BarChart({ cut }: BarChartProps) {
     fetch(`http://localhost:5002/dimension/${cut}`)
       .then((response) => response.json())
       .then((json) => {
-        json.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        const labels = json.map((item) => item.nombre);
-        const valores = json.map((item) => item.valor);
+        json.sort((a: { nombre: string }, b: { nombre: string }) => a.nombre.localeCompare(b.nombre));
+        const labels = json.map((item: { nombre: string }) => item.nombre);
+        const valores = json.map((item: { valor: number }) => item.valor);
+        
 
         setData({
           labels,
