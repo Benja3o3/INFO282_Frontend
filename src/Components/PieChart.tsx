@@ -43,6 +43,7 @@ export default function PieChart({ cut }: PieChartProps) {
       .then((response) => response.json())
       .then((json) => {
         // Transformar los datos JSON en el formato adecuado
+        json.sort((a, b) => a.nombre.localeCompare(b.nombre));
         const labels = json.map((item) => item.nombre);
         const dataValues = json.map((item) => item.valor);
 

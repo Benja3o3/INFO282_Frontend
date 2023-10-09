@@ -43,7 +43,7 @@ export default function IndicatorTable({
   return (
     <div className="p-2 h-screen flex flex-col">
       <h1 className="text-[2vw] font-semibold text-center">
-        WELFARE BAROMETER
+        BAROMETRO BIENESTAR
       </h1>
 
       <div className="grid grid-rows-1 ">
@@ -74,7 +74,7 @@ export default function IndicatorTable({
             onClick={onclickData}
             className="bg-blue-500 p-2 m-2 rounded-full w-1/2 text-[1vw] font-semibold hover:bg-green-400"
           >
-            Export data
+            Exportar data
           </button>
         </div>
       </div>

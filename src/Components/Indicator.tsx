@@ -102,11 +102,9 @@ const Indicator = ({
             </div>
           </button>
         </div>
-        <PopUp isOpen={popUpButton} onClose={handleClosePopUp}>
-          <h2>Título del PopUp</h2>
-          <p>lskdfjskdjfslkdfjlskjfdlsjdlfkjslfd</p>
-          <p>Contenido del PopUp</p>
-        </PopUp>
+        <div>
+          <PopUp isOpen={popUpButton} onClose={handleClosePopUp} name={name} />
+        </div>
       </div>
 
       <div

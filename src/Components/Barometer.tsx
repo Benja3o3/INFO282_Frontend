@@ -39,7 +39,7 @@ const Barometer: React.FC<HalfCircleProps> = ({ radius, numberOfSections }) => {
   );
 
   return (
-    <div className="rotate-180  p-2">
+    <div className="rotate-180 p-2">
       <svg
         width={radius * 2}
         height={radius}

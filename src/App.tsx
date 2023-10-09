@@ -24,7 +24,7 @@ export default function App() {
         <Map onNameMapChange={handleNameMapChange} />
       </div>
       <div className="absolute bottom-0 mb-2 right-[33%] bg-white rounded-lg p-2">
-        <h1 className="text-center">Barometer</h1>
+        <h1 className="text-center font-semibold">BAROMETRO</h1>
         <Barometer radius={100} numberOfSections={6} />
       </div>
     </div>

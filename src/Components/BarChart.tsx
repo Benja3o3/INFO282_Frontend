@@ -21,24 +21,11 @@ ChartJS.register(
   Legend,
   Filler
 );
+import { useEffect, useState } from "react";
 
-var beneficios = [72, 56, 20, 36, 80, 40, 30, -20, 25, 30, 12, 60];
-var meses = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
+ChartJS.register(CategoryScale, LinearScale, Title, Tooltip, Legend);
 
-const misoptions = {
+const options = {
   responsive: true,
   animation: {
     duration: 0,
@@ -50,8 +37,7 @@ const misoptions = {
   },
   scales: {
     y: {
-      min: -25,
-      max: 100,
+      min: 0,
     },
     x: {
       ticks: { color: "rgba(0, 220, 195)" },
@@ -59,17 +45,40 @@ const misoptions = {
   },
 };
 
-var midata = {
-  labels: meses,
-  datasets: [
-    {
-      label: "Beneficios",
-      data: beneficios,
-      backgroundColor: "rgba(0, 220, 195, 0.5)",
-    },
-  ],
-};
+interface BarChartProps {
+  cut: number;
+}
 
-export default function BarChart() {
-  return <Bar data={midata} options={misoptions} />;
+export default function BarChart({ cut }: BarChartProps) {
+  const [data, setData] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: "rgba(0, 220, 195, 0.5)",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    fetch(`http://localhost:5002/dimension/${cut}`)
+      .then((response) => response.json())
+      .then((json) => {
+        json.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        const labels = json.map((item) => item.nombre);
+        const valores = json.map((item) => item.valor);
+
+        setData({
+          labels,
+          datasets: [
+            {
+              data: valores,
+              backgroundColor: "rgba(0, 220, 195, 0.5)",
+            },
+          ],
+        });
+      });
+  }, [cut]);
+
+  return <Bar data={data} options={options} />;
 }
