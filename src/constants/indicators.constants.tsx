@@ -22,16 +22,16 @@ export const INDICATOR_DATA = [
   },
   {
     name: "Salud",
-    progress: 50,
+    progress: 100,
     imageUrl: salud,
   },
   {
-    name: "Tecnologico",
-    progress: 90,
+    name: "Tecnologia",
+    progress: 30,
     imageUrl: tecnologico,
   },
   {
-    name: "SocioEconomico",
+    name: "Economico",
     progress: 20,
     imageUrl: socioEconomico,
   },
@@ -46,7 +46,7 @@ export const INDICATOR_DATA = [
     imageUrl: movilidad,
   },
   {
-    name: "Entretenimiento",
+    name: "Diversion",
     progress: 78,
     imageUrl: entretenimiento,
   },

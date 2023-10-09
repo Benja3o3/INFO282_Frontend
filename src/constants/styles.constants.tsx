@@ -21,10 +21,10 @@ interface ColorWelfare {
 }
 
 export const COLOR_WELFARE: ColorWelfare = {
-  0: "#7cc200",
-  20: "#a1cc47",
-  40: "#ede96e",
-  60: "#ffba5f",
-  80: "#ffa21f",
-  100: "#FF0000",
+  0: "#FF0000",
+  20: "#ffa21f",
+  40: "#ffba5f",
+  60: "#ede96e",
+  80: "#a1cc47",
+  100: "#7cc200",
 };

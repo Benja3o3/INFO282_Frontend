@@ -3,25 +3,29 @@ import Charts from "./Components/Charts.tsx";
 import IndicatorTable from "./Components/IndicatorTable.tsx";
 import { useState } from "react";
 
-export default function App() {
-  const [selectedNameMap, setSelectedNameMap] = useState("Chile");
+import Barometer from "./Components/Barometer.tsx";
 
-  const handleNameMapChange = (name: string) => {
-    setSelectedNameMap(name);
+export default function App() {
+  const [selectedNameMap, setSelectedNameMap] = useState(0);
+
+  const handleNameMapChange = (cut: number) => {
+    setSelectedNameMap(cut);
   };
 
   return (
-    <div className="w-full h-screen flex flex-cols text-center p-2">
-      <div className="w-1/2 bg-slate-200 h-full mr-2 hidden md:flex flex-col rounded-lg">
-        <h1 className="text-[2vw] font-semibold">BAROMETER COUNTRY</h1>
+    <div className="grid grid-cols-[1fr,1fr,2fr] gap-2 h-screen">
+      <div className="bg-slate-200 rounded-lg">
         <IndicatorTable selectedNameMap={selectedNameMap} />
       </div>
-      <div className="w-1/2 bg-slate-200 h-full p-2 mr-2 hidden md:flex flex-col rounded-lg">
-        <h1 className="text-[2vw] font-semibold">GRAPHICS</h1>
-        <Charts />
+      <div className="bg-slate-200 rounded-lg">
+        <Charts cut={selectedNameMap} />
       </div>
-      <div className="grid grid-cols-1 gap-3 w-full mx-auto h-full">
+      <div className="z-0">
         <Map onNameMapChange={handleNameMapChange} />
+      </div>
+      <div className="absolute bottom-0 mb-2 right-[33%] bg-white rounded-lg p-2">
+        <h1 className="text-center">Barometer</h1>
+        <Barometer radius={100} numberOfSections={6} />
       </div>
     </div>
   );

@@ -2,19 +2,24 @@ import BarChart from "./BarChart.tsx";
 import LineChart from "./LineChart.tsx";
 import PieChart from "./PieChart.tsx";
 
-export default function Charts() {
+interface ChartProps {
+  cut: number;
+}
+export default function Charts({ cut }: ChartProps) {
   return (
-    <div className="h-screen w-full rounded-lg grid place-content-center">
-      <div className="grid gap-3">
-        <div className="bg-white p-2 rounded-lg ">
+    <div className="p-2 h-screen flex flex-col">
+      <h1 className="text-[2vw] font-semibold text-center">GRAPHICS</h1>
+
+      <div className=" grid grid-rows-2 gap-3 mb-3">
+        <div className=" bg-white p-2 rounded-lg">
           <BarChart />
         </div>
-        <div className=" bg-white p-2 rounded-lg">
+        <div className="bg-white p-2 rounded-lg">
           <LineChart />
         </div>
-        <div className=" bg-white p-2 rounded-lg ">
-          <PieChart />
-        </div>
+      </div>
+      <div className="bg-white p-2 rounded-lg flex-grow">
+        <PieChart cut={cut} />
       </div>
     </div>
   );

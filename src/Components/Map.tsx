@@ -10,7 +10,7 @@ interface CustomControl extends Control {
 }
 
 interface MapProps {
-  onNameMapChange: (name: string) => void;
+  onNameMapChange: (cut: number) => void;
 }
 
 export default function Map({ onNameMapChange }: MapProps) {
@@ -64,6 +64,7 @@ export default function Map({ onNameMapChange }: MapProps) {
 
   const handleLayerClick = (e: any, prop: string) => {
     const name = e.layer.feature.properties[prop];
+    let cut = 0;
 
     if (e.layer) {
       layer.setStyle(defaultStyle);
@@ -79,14 +80,14 @@ export default function Map({ onNameMapChange }: MapProps) {
       infoInstance.addTo(mapInstance);
     }
     if (e.layer.feature.properties.cod_comuna != undefined) {
-      console.log(e.layer.feature.properties.cod_comuna);
+      cut = e.layer.feature.properties.cod_comuna;
     } else if (e.layer.feature.properties.codregion != undefined) {
-      console.log(e.layer.feature.properties.codregion);
+      cut = e.layer.feature.properties.codregion;
     } else {
-      console.log(e.layer.feature.properties.COUNTRY);
+      cut = e.layer.feature.properties.COUNTRY;
     }
 
-    onNameMapChange(name);
+    onNameMapChange(cut);
   };
 
   useEffect(() => {
