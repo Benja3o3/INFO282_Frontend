@@ -1,12 +1,19 @@
-FROM node:lts-alpine 
+
+## STAGE 1
+FROM node:lts-bullseye as build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --silent && \
-    npm cache clean --force && \
-    rm -rf /tmp/* /var/tmp/* /usr/share/man /tmp/* /var/tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
+RUN npm ci
 COPY . .
 RUN npm run build
 
+## STAGE 2
+FROM nginx:alpine
+ADD ./config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /var/www/app/
 
-EXPOSE 4051
-CMD ["npm", "run", "dev"]
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+
