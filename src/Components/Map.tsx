@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import L, { Map as LeafletMap, GeoJSON, Control } from "leaflet";
 import { SHAPE } from "../constants/layers.constants";
-import { defaultStyle, clickStyle } from "../constants/styles.constants";
+import { COLOR_WELFARE } from "../constants/styles.constants";
 import "leaflet/dist/leaflet.css";
 
 interface CustomControl extends Control {
@@ -10,17 +10,40 @@ interface CustomControl extends Control {
 }
 
 interface MapProps {
-  onNameMapChange: (cut: number) => void;
+  onNameMapChange: (cut: number, type: string, bienestar: number) => void;
 }
 
 export default function Map({ onNameMapChange }: MapProps) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
   const [mapInstance, setMapInstance] = useState<LeafletMap>();
-  const [propName, setPropName] = useState("COUNTRY");
+  const [propName, setPropName] = useState("pais");
   const [infoInstance, setInfoInstance] = useState<CustomControl>(
     new L.Control() as CustomControl
   );
+  const [bienestar, setBienestar] = useState(0);
+
+  const [bienestarRegion, setBienestarRegion] = useState<any[]>();
+  const [bienestarComuna, setBienestarComuna] = useState<any[]>();
+  const [bienestarPais, setBienestarPais] = useState<any[]>();
+  const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      fetch("http://localhost:5002/regiones/").then((response) =>
+        response.json()
+      ),
+      fetch("http://localhost:5002/comunas/").then((response) =>
+        response.json()
+      ),
+      fetch("http://localhost:5002/pais/").then((response) => response.json()),
+    ]).then(([regionesData, comunasData, paisData]) => {
+      setBienestarRegion(regionesData);
+      setBienestarComuna(comunasData);
+      setBienestarPais(paisData);
+      setDataLoaded(true);
+    });
+  }, []);
 
   useEffect(() => {
     const map = L.map("map", {
@@ -62,32 +85,37 @@ export default function Map({ onNameMapChange }: MapProps) {
     };
   }, []);
 
-  const handleLayerClick = (e: any, prop: string) => {
-    const name = e.layer.feature.properties[prop];
-    let cut = 0;
+  const handleLayerClick = (e: any, prop: string, bienestar: number) => {
+    const value =
+      {
+        pais: "COUNTRY",
+        regiones: "Region",
+        comunas: "Comuna",
+      }[prop] || "";
 
-    if (e.layer) {
-      layer.setStyle(defaultStyle);
-    }
-    e.layer.setStyle(clickStyle);
+    const name = e.layer.feature.properties[value];
+    const cut =
+      prop === "comunas"
+        ? e.layer.feature.properties.cod_comuna
+        : prop === "regiones"
+        ? e.layer.feature.properties.codregion
+        : e.layer.feature.properties.COUNTRY;
 
     if (infoInstance && mapInstance) {
       infoInstance.update = function () {
-        this._div.innerHTML =
+        infoInstance._div.innerHTML =
           "<h4>Información</h4>" + "<b>" + name + "</b><br/>";
       };
-
       infoInstance.addTo(mapInstance);
     }
-    if (e.layer.feature.properties.cod_comuna != undefined) {
-      cut = e.layer.feature.properties.cod_comuna;
-    } else if (e.layer.feature.properties.codregion != undefined) {
-      cut = e.layer.feature.properties.codregion;
-    } else {
-      cut = e.layer.feature.properties.COUNTRY;
-    }
+    onNameMapChange(cut, prop, bienestar);
 
-    onNameMapChange(cut);
+    const buildURL = (tipo: string) => {
+      return `http://localhost:5002/${tipo}/${prop === "pais" ? "" : cut}`;
+    };
+    fetch(buildURL(prop))
+      .then((response) => response.json())
+      .then((json) => setBienestar(json[0].valor_bienestar));
   };
 
   useEffect(() => {
@@ -99,24 +127,56 @@ export default function Map({ onNameMapChange }: MapProps) {
         if (zoom !== zoomCurrent) {
           mapInstance.removeLayer(currentLayer);
           const [prop, newLayer, newBounds] = SHAPE[zoom];
-          setPropName(prop);
 
+          setPropName(prop);
           newLayer.addTo(mapInstance);
           setLayer(newLayer);
           setZoomCurrent(zoom);
           mapInstance.setMaxBounds(newBounds);
 
           infoInstance.update = function () {
-            this._div.innerHTML =
+            infoInstance._div.innerHTML =
               "<h4>Información</h4> <b> Selecciona un punto en el mapa </b><br />";
           };
-
           infoInstance.addTo(mapInstance);
         }
       });
     }
-    layer.on("click", (e) => handleLayerClick(e, propName));
+    layer.on("click", (e) => handleLayerClick(e, propName, bienestar));
   }, [mapInstance, zoomCurrent]);
+
+  useEffect(() => {
+    if (dataLoaded && bienestarPais && bienestarRegion && bienestarComuna) {
+      layer.eachLayer((geojsonLayer: any) => {
+        let bienestar = 0;
+        if (propName == "regiones") {
+          const id_region = geojsonLayer.feature.properties.codregion;
+          const bienestarItem = bienestarRegion.find(
+            (item: any) => item.region_id == id_region
+          );
+          bienestar = bienestarItem.valor_bienestar.toFixed(1) * 10;
+        } else if (propName == "comunas") {
+          const id_comuna = geojsonLayer.feature.properties.cod_comuna;
+          const bienestarItem = bienestarComuna.find(
+            (item: any) => item.comuna_id == id_comuna
+          );
+          if (bienestarItem) {
+            bienestar = bienestarItem.valor_bienestar.toFixed(1) * 10;
+          }
+        } else if (propName == "pais") {
+          bienestar = bienestarPais[0].valor_bienestar.toFixed(1) * 10;
+        }
+        geojsonLayer.setStyle({
+          fillColor: COLOR_WELFARE[bienestar],
+          weight: 2,
+          opacity: 1,
+          color: "white",
+          dashArray: "3",
+          fillOpacity: 0.7,
+        });
+      });
+    }
+  }, [dataLoaded, layer]);
 
   return <div id="map" className="h-full w-full rounded-lg" />;
 }

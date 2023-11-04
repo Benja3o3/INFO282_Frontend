@@ -1,13 +1,18 @@
 import React from "react";
 
-import { COLOR_WELFARE } from "../constants/styles.constants";
+import { COLOR_WELFARETEST } from "../constants/styles.constants";
 
 interface HalfCircleProps {
   radius: number;
   numberOfSections: number;
+  value: number; // Nuevo prop para el valor (entre 0 y 1)
 }
 
-const Barometer: React.FC<HalfCircleProps> = ({ radius, numberOfSections }) => {
+const Barometer: React.FC<HalfCircleProps> = ({
+  radius,
+  numberOfSections,
+  value,
+}) => {
   const anglePerSection = 180 / numberOfSections; // Ángulo de cada casilla
 
   const createSection = (index: number) => {
@@ -23,7 +28,7 @@ const Barometer: React.FC<HalfCircleProps> = ({ radius, numberOfSections }) => {
     const y2 = radius * Math.sin(endAngleRad);
 
     const colorIndex = index * 20; // Indice del color según el ángulo
-    const fillColor = COLOR_WELFARE[colorIndex];
+    const fillColor = COLOR_WELFARETEST[colorIndex];
 
     return (
       <path
@@ -38,6 +43,29 @@ const Barometer: React.FC<HalfCircleProps> = ({ radius, numberOfSections }) => {
     createSection(index)
   );
 
+  // Calcular el ángulo correspondiente al valor entre 0 y 1 (0 a 180 grados)
+  const valueAngle = value * 180;
+  const valueAngleRad = valueAngle * (Math.PI / 180);
+
+  // Calcular las coordenadas del punto correspondiente al valor
+  const valueX = radius * Math.cos(valueAngleRad);
+  const valueY = radius * Math.sin(valueAngleRad);
+
+  // Agregar una línea que marque el valor
+  const lineColor = "black"; // Puedes cambiar el color
+  const lineThickness = 3; // Puedes cambiar el grosor de la línea
+
+  const valueLine = (
+    <line
+      x1={0}
+      y1={0}
+      x2={valueX}
+      y2={valueY}
+      stroke={lineColor}
+      strokeWidth={lineThickness}
+    />
+  );
+
   return (
     <div className="rotate-180 p-2">
       <svg
@@ -46,6 +74,7 @@ const Barometer: React.FC<HalfCircleProps> = ({ radius, numberOfSections }) => {
         viewBox={`-${radius} 0 ${radius * 2} ${radius}`}
       >
         {sections}
+        {valueLine}
       </svg>
     </div>
   );

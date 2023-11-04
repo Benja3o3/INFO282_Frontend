@@ -8,6 +8,8 @@ const onclickData = () => {
 
 interface IndicadorTableProps {
   selectedNameMap: number;
+  cut: number;
+  type: string;
 }
 
 type Diccionario = {
@@ -19,6 +21,8 @@ type Diccionario = {
 
 export default function IndicatorTable({
   selectedNameMap,
+  cut,
+  type,
 }: IndicadorTableProps) {
   const [selectedIndicator, setSelectedIndicator] = useState<string | null>(
     null
@@ -26,7 +30,14 @@ export default function IndicatorTable({
   const [dataDicc, setDataDicc] = useState<Diccionario[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5002/dimension/${selectedNameMap}`)
+    const buildURL = (tipo: string) => {
+      if (type != "pais") {
+        return `http://localhost:5002/${tipo}/dimension/${cut}`;
+      }
+      return `http://localhost:5002/${tipo}/dimension/`;
+    };
+
+    fetch(buildURL(type))
       .then((response) => response.json())
       .then((json) => setDataDicc(json));
   }, [selectedIndicator, selectedNameMap]);
@@ -58,11 +69,11 @@ export default function IndicatorTable({
               <Indicator
                 key={indicator.name}
                 name={indicator.name}
-                progress={
-                  progressValue != 0 ? progressValue : indicator.progress
-                }
+                progress={progressValue}
                 imageUrl={indicator.imageUrl}
                 onClick={onclick}
+                type={type}
+                cut={cut}
                 isSelected={selectedIndicator === indicator.name}
               />
             );

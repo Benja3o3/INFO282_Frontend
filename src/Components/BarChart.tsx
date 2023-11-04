@@ -21,9 +21,6 @@ ChartJS.register(
   Legend,
   Filler
 );
-import { useEffect, useState } from "react";
-
-ChartJS.register(CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const options = {
   responsive: true,
@@ -46,40 +43,20 @@ const options = {
 };
 
 interface BarChartProps {
-  cut: number;
+  labels: string[];
+  data: number[];
 }
 
-export default function BarChart({ cut }: BarChartProps) {
-  const [data, setData] = useState({
-    labels: [],
+export default function BarChart({ labels, data }: BarChartProps) {
+  const dataCharts = {
+    labels,
     datasets: [
       {
-        data: [],
+        data,
         backgroundColor: "rgba(0, 220, 195, 0.5)",
       },
     ],
-  });
+  };
 
-  useEffect(() => {
-    fetch(`http://localhost:5002/dimension/${cut}`)
-      .then((response) => response.json())
-      .then((json) => {
-        json.sort((a: { nombre: string }, b: { nombre: string }) => a.nombre.localeCompare(b.nombre));
-        const labels = json.map((item: { nombre: string }) => item.nombre);
-        const valores = json.map((item: { valor: number }) => item.valor);
-        
-
-        setData({
-          labels,
-          datasets: [
-            {
-              data: valores,
-              backgroundColor: "rgba(0, 220, 195, 0.5)",
-            },
-          ],
-        });
-      });
-  }, [cut]);
-
-  return <Bar data={data} options={options} />;
+  return <Bar data={dataCharts} options={options} />;
 }

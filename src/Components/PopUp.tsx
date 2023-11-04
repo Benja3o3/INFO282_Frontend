@@ -5,11 +5,11 @@ interface PopUpProps {
   isOpen: boolean;
   onClose: () => void;
   name: String;
+  data: any;
 }
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, name }) => {
+const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, name, data }) => {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 h-screen w-full">
       <div className="absolute inset-0 bg-black opacity-50 "></div>
@@ -29,12 +29,11 @@ const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, name }) => {
           </h2>
           <div className="m-2">
             <p>LISTA DE VARIABLES </p>
-            <ol>variable 1 </ol>
-            <ol>variable 2 </ol>
-            <ol>variable . </ol>
-            <ol>variable . </ol>
-            <ol>variable . </ol>
-            <ol>variable n </ol>
+            {data.map((indicator) => (
+              <ol key={indicator}>
+                <ol>{indicator}</ol>
+              </ol>
+            ))}
           </div>
         </div>
         <div className="text-center">

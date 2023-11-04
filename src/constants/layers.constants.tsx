@@ -9,19 +9,19 @@ interface Shape {
   [key: number]: [string, GeoJSON, LatLngBoundsExpression];
 }
 
-export const SHAPE: Shape = {
+export let SHAPE: Shape = {
   4: [
-    "COUNTRY",
+    "pais",
     L.geoJSON(country as FeatureCollection).setStyle(defaultStyle),
     L.latLngBounds(L.latLng(-10, -110.0), L.latLng(-60.0, -40.0)),
   ],
   6: [
-    "Region",
+    "regiones",
     L.geoJSON(regions as FeatureCollection).setStyle(defaultStyle),
     L.latLngBounds(L.latLng(-17, -65.0), L.latLng(-58.0, -77.0)),
   ],
   8: [
-    "Comuna",
+    "comunas",
     L.geoJSON(communes as FeatureCollection).setStyle(defaultStyle),
     L.latLngBounds(L.latLng(-16, -65.0), L.latLng(-58.0, -78.0)),
   ],

@@ -1,5 +1,5 @@
 import { COLOR_WELFARE } from "../constants/styles.constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Arrow from "../assets/Arrow";
 import Dot from "../assets/Dot";
 import PopUp from "./PopUp";
@@ -8,6 +8,8 @@ interface IndicadorProps {
   progress: number;
   imageUrl: string;
   name: string;
+  type: string;
+  cut: number;
   onClick: (name: string) => void;
   isSelected: boolean;
 }
@@ -16,17 +18,32 @@ const Indicator = ({
   progress,
   imageUrl,
   name,
+  type,
+  cut,
   onClick,
   isSelected,
 }: IndicadorProps) => {
   const [clickButton, setClickButton] = useState(false);
-  const normalizedProgress = Math.min(100, progress);
+  let value = (progress * 100).toFixed(2);
   const [popUpButton, setPopUpButton] = useState(false);
+  const [variables, setVariables] = useState([]);
 
   const handleClick = () => {
     setClickButton(!clickButton);
   };
 
+  useEffect(() => {
+    const buildURL = (tipo: string) => {
+      if (type != "pais") {
+        return `http://localhost:5002/${tipo}/indicador/${cut}`;
+      }
+      return `http://localhost:5002/${tipo}/indicador/`;
+    };
+
+    fetch(buildURL(type))
+      .then((response) => response.json())
+      .then((json) => setVariables(json));
+  }, [type, cut, name]);
   const handleClickPopUp = () => {
     setPopUpButton(!popUpButton);
   };
@@ -38,7 +55,7 @@ const Indicator = ({
     for (let i = 0; i < colorKeys.length; i++) {
       const key = colorKeys[i];
       const nextKey = colorKeys[i + 1] || maxKey; // Si no hay siguiente, usar el máximo
-      if (progress >= key && progress < nextKey) {
+      if (progress * 10 >= key && progress * 10 < nextKey) {
         // Verificar si el progreso está en el rango actual
         currentColor = COLOR_WELFARE[key];
         break;
@@ -54,6 +71,10 @@ const Indicator = ({
   const handleClosePopUp = () => {
     setPopUpButton(false);
   };
+
+  // Filtra los indicadores que tienen dimension igual al nombre
+  const indicators = variables.filter((item) => item.dimension === name);
+  let valores = indicators.map((item) => item.indicador);
 
   return (
     <>
@@ -74,16 +95,15 @@ const Indicator = ({
             />
           </button>
         </div>
-        {/* Barra de progreso */}
         <div className="w-full ml-2 bg-white rounded-full font-bold">
           <div
             className="rounded-full text-[1vw] text-center"
             style={{
-              width: `${Math.round(normalizedProgress)}%`,
+              width: `${Math.round(progress * 100)}%`,
               backgroundColor: getColor(),
             }}
           >
-            {Math.round(normalizedProgress)}%
+            {value}%
           </div>
         </div>
         <div className="flex items-center ml-1 rounded-lg">
@@ -103,7 +123,12 @@ const Indicator = ({
           </button>
         </div>
         <div>
-          <PopUp isOpen={popUpButton} onClose={handleClosePopUp} name={name} />
+          <PopUp
+            isOpen={popUpButton}
+            onClose={handleClosePopUp}
+            name={name}
+            data={valores}
+          />
         </div>
       </div>
 
@@ -116,12 +141,26 @@ const Indicator = ({
               <th>Variables:</th>
             </tr>
           </thead>
-          {/* <tbody>
-            <tr>Indicator 1</tr>
-            <tr>Indicator 2</tr>
-            <tr>Indicator 3</tr>
-            <tr>Indicator n</tr>
-          </tbody> */}
+          <tbody>
+            {indicators.map((indicator) => (
+              <tr key={indicator.indicador}>
+                <td>{indicator.indicador}:</td>
+                <td>
+                  <div className="w-full ml-2 bg-white rounded-full font-bold">
+                    <div
+                      className="rounded-full text-[1vw] text-center"
+                      style={{
+                        width: `${indicator.valor * 100}%`,
+                        backgroundColor: getColor(),
+                      }}
+                    >
+                      {(indicator.valor * 100).toFixed(2)}%
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </>

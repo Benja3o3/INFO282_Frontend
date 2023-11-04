@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "**/*.geojson"],
+  "include": ["src", "**/*.geojson","src/**/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
