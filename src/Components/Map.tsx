@@ -21,7 +21,6 @@ export default function Map({ onNameMapChange }: MapProps) {
   const [infoInstance, setInfoInstance] = useState<CustomControl>(
     new L.Control() as CustomControl
   );
-  const [bienestar, setBienestar] = useState(0);
 
   const [bienestarRegion, setBienestarRegion] = useState<any[]>();
   const [bienestarComuna, setBienestarComuna] = useState<any[]>();
@@ -46,7 +45,7 @@ export default function Map({ onNameMapChange }: MapProps) {
   }, []);
 
   useEffect(() => {
-    const map = L.map("map", {
+    const map: LeafletMap = L.map("map", {
       maxBoundsViscosity: 1.0,
       bounceAtZoomLimits: false,
       minZoom: 4,
@@ -93,21 +92,26 @@ export default function Map({ onNameMapChange }: MapProps) {
       "[0.83-1.00]",
     ];
 
-    // Crear la leyenda
-    const legend = L.control({ position: "bottomright" });
+    const CustomControl = L.Control.extend({
+      options: {
+        position: "bottomright", // posición
+      },
 
-    legend.onAdd = () => {
-      const div = L.DomUtil.create("div", "info legend");
-      div.innerHTML = `<div class="text-center font-bold">Rangos<br></div>`;
+      onAdd: function () {
+        const div = L.DomUtil.create("div", "info legend");
+        div.innerHTML = `<div class="text-center font-bold">Rangos<br></div>`;
 
-      for (let i = 0; i < legendColors.length; i++) {
-        div.innerHTML += `
+        for (let i = 0; i < legendColors.length; i++) {
+          div.innerHTML += `
           <div class="text-center pl-1 pr-1 rounded-sm" style="background:${legendColors[i]}">${legendLabels[i]}<br></div> 
         `;
-      }
+        }
 
-      return div;
-    };
+        return div;
+      },
+    });
+
+    const legend = new CustomControl();
 
     infoInstance.addTo(map);
     legend.addTo(map);
@@ -136,6 +140,15 @@ export default function Map({ onNameMapChange }: MapProps) {
         ? e.layer.feature.properties.codregion
         : e.layer.feature.properties.COUNTRY;
 
+    if (e.layer) {
+      layer.setStyle({ weight: 2, color: "white", dashArray: "3" });
+    }
+    e.layer.setStyle({
+      weight: 2, // Ancho del borde
+      dashArray: "3",
+      color: "rgba(60, 162, 235, 1)", // Color del borde
+    });
+
     if (infoInstance && mapInstance) {
       infoInstance.update = function () {
         infoInstance._div.innerHTML =
@@ -151,7 +164,6 @@ export default function Map({ onNameMapChange }: MapProps) {
       .then((response) => response.json())
       .then((json) => {
         const newBienestar = json[0].valor_bienestar;
-        setBienestar(newBienestar);
         onNameMapChange(cut, prop, newBienestar);
       });
   };
@@ -183,6 +195,20 @@ export default function Map({ onNameMapChange }: MapProps) {
     layer.on("click", (e) => handleLayerClick(e, propName));
   }, [mapInstance, zoomCurrent]);
 
+  const getColor = (progress: number) => {
+    const progressRanges = [0.0, 0.17, 0.33, 0.5, 0.67, 0.83, 1.0];
+    let currentColor = COLOR_WELFARE[0]; // Color predeterminado
+
+    for (let i = 0; i < progressRanges.length; i++) {
+      if (progress >= progressRanges[i] && progress < progressRanges[i + 1]) {
+        currentColor = COLOR_WELFARE[i];
+        break;
+      }
+    }
+
+    return currentColor;
+  };
+
   useEffect(() => {
     if (dataLoaded && bienestarPais && bienestarRegion && bienestarComuna) {
       layer.eachLayer((geojsonLayer: any) => {
@@ -192,20 +218,23 @@ export default function Map({ onNameMapChange }: MapProps) {
           const bienestarItem = bienestarRegion.find(
             (item: any) => item.region_id == id_region
           );
-          bienestar = bienestarItem.valor_bienestar.toFixed(1) * 10;
+          bienestar = bienestarItem.valor_bienestar;
         } else if (propName == "comunas") {
           const id_comuna = geojsonLayer.feature.properties.cod_comuna;
           const bienestarItem = bienestarComuna.find(
             (item: any) => item.comuna_id == id_comuna
           );
           if (bienestarItem) {
-            bienestar = bienestarItem.valor_bienestar.toFixed(1) * 10;
+            bienestar = bienestarItem.valor_bienestar;
+            console.log(
+              "Bienestar: " + bienestarItem.valor_bienestar.toFixed(3)
+            );
           }
         } else if (propName == "pais") {
-          bienestar = bienestarPais[0].valor_bienestar.toFixed(1) * 10;
+          bienestar = bienestarPais[0].valor_bienestar;
         }
         geojsonLayer.setStyle({
-          fillColor: COLOR_WELFARE[bienestar],
+          fillColor: getColor(bienestar),
           weight: 2,
           opacity: 1,
           color: "white",

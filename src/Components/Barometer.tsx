@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { COLOR_WELFARETEST } from "../constants/styles.constants";
+import { COLOR_WELFARE } from "../constants/styles.constants";
 
 interface HalfCircleProps {
   radius: number;
@@ -33,8 +33,8 @@ const Barometer: React.FC<HalfCircleProps> = ({
     const x2 = radius * Math.cos(endAngleRad);
     const y2 = radius * Math.sin(endAngleRad);
 
-    const colorIndex = index * 20; // Indice del color según el ángulo
-    const fillColor = COLOR_WELFARETEST[colorIndex];
+    const colorIndex = index; // Indice del color según el ángulo
+    const fillColor = COLOR_WELFARE[colorIndex];
 
     return (
       <path

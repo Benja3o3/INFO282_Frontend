@@ -20,7 +20,6 @@ export default function Charts({ cut, type, category }: ChartProps) {
       return `http://localhost:5002/${tipo}/dimension/`;
     };
 
-    // Realizar la solicitud fetch según el tipo
     fetch(buildURL(type))
       .then((response) => response.json())
       .then((json) => {

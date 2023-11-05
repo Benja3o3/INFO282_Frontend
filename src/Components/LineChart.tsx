@@ -27,9 +27,10 @@ var options = {
   scales: {
     y: {
       min: 0,
+      ticks: { color: "rgba(54, 162, 235, 1)" },
     },
     x: {
-      ticks: { color: "rgb(255, 99, 132)" },
+      ticks: { color: "rgba(54, 162, 235, 1)" },
     },
   },
 };
@@ -38,22 +39,23 @@ interface LineChartProps {
   category: string;
 }
 
+interface DATAPROPERTY {
+  valor: number;
+  region_id: number;
+}
+
 export default function LineChart({ category }: LineChartProps) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<DATAPROPERTY[]>([]);
 
   useEffect(() => {
     fetch(`http://localhost:5002/regiones/dimension/categoria/${category}`)
       .then((response) => response.json())
-      .then((json) => {
-        // Ordenar los datos por valor_bienestar en orden descendente
-        const sortedData = json.sort(
-          (a, b) => b.valor_bienestar - a.valor_bienestar
-        );
+      .then((json: DATAPROPERTY[]) => {
+        const sortedData = json.sort((a, b) => a.region_id - b.region_id);
         setData(sortedData);
       });
   }, [category]);
 
-  // Preparar los datos para el gráfico
   const dataCharts = {
     labels: data.map((item) => item.region_id),
     datasets: [
@@ -62,11 +64,11 @@ export default function LineChart({ category }: LineChartProps) {
         data: data.map((item) => item.valor),
         tension: 0.5,
         fill: true,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        backgroundColor: "rgba(54, 162, 235, 0.3)",
         pointRadius: 5,
-        pointBorderColor: "rgba(255, 99, 132)",
-        pointBackgroundColor: "rgba(255, 99, 132)",
+        pointBorderColor: "rgba(54, 162, 235, 1)",
+        pointBackgroundColor: "rgba(54, 162, 235, 0.6)",
       },
     ],
   };

@@ -29,7 +29,7 @@ const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, name, data }) => {
           </h2>
           <div className="m-2">
             <p>LISTA DE VARIABLES </p>
-            {data.map((indicator) => (
+            {data.map((indicator: string) => (
               <ol key={indicator}>
                 <ol>{indicator}</ol>
               </ol>

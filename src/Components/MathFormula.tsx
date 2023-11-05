@@ -6,23 +6,17 @@ interface MathFormulaProps {
   latexString: string;
 }
 
-
 const MathFormula: React.FC<MathFormulaProps> = ({ latexString }) => {
   useEffect(() => {
     const mathFormulaElement = document.getElementById("math-formula");
     if (mathFormulaElement) {
       katex.render(latexString, mathFormulaElement, {
-        throwOnError: false, // Evita errores en la renderización
+        throwOnError: false,
       });
     }
   }, [latexString]);
 
-  return (
-    <div id="math-formula">
-      {/* You can add any additional content or styling here */}
-    </div>
-  );
+  return <div id="math-formula"></div>;
 };
-
 
 export default MathFormula;

@@ -13,6 +13,11 @@ interface IndicadorProps {
   onClick: (name: string) => void;
   isSelected: boolean;
 }
+interface Variable {
+  dimension: string;
+  indicador: string;
+  valor: number;
+}
 
 const Indicator = ({
   progress,
@@ -24,9 +29,9 @@ const Indicator = ({
   isSelected,
 }: IndicadorProps) => {
   const [clickButton, setClickButton] = useState(false);
-  let value = (progress * 100).toFixed(2);
   const [popUpButton, setPopUpButton] = useState(false);
-  const [variables, setVariables] = useState([]);
+  const [variables, setVariables] = useState<Variable[]>([]);
+  let value = (progress * 100).toFixed(2);
 
   const handleClick = () => {
     setClickButton(!clickButton);
@@ -44,24 +49,21 @@ const Indicator = ({
       .then((response) => response.json())
       .then((json) => setVariables(json));
   }, [type, cut, name]);
+
   const handleClickPopUp = () => {
     setPopUpButton(!popUpButton);
   };
-  const getColor = () => {
-    const colorKeys = Object.keys(COLOR_WELFARE).map(Number); // Obtener las claves como números
-    const maxKey = Math.max(...colorKeys); // Encontrar la clave máxima
-    let currentColor = COLOR_WELFARE[maxKey]; // Color predeterminado (el más alto)
 
-    for (let i = 0; i < colorKeys.length; i++) {
-      const key = colorKeys[i];
-      const nextKey = colorKeys[i + 1] || maxKey; // Si no hay siguiente, usar el máximo
-      if (progress * 10 >= key && progress * 10 < nextKey) {
-        // Verificar si el progreso está en el rango actual
-        currentColor = COLOR_WELFARE[key];
+  const getColor = () => {
+    const progressRanges = [0.0, 0.17, 0.33, 0.5, 0.67, 0.83, 1.0];
+    let currentColor = COLOR_WELFARE[0]; // Color predeterminado
+
+    for (let i = 0; i < progressRanges.length; i++) {
+      if (progress >= progressRanges[i] && progress < progressRanges[i + 1]) {
+        currentColor = COLOR_WELFARE[i];
         break;
       }
     }
-
     return currentColor;
   };
 
@@ -72,7 +74,6 @@ const Indicator = ({
     setPopUpButton(false);
   };
 
-  // Filtra los indicadores que tienen dimension igual al nombre
   const indicators = variables.filter((item) => item.dimension === name);
   let valores = indicators.map((item) => item.indicador);
 
