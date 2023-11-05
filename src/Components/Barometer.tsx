@@ -16,7 +16,6 @@ const Barometer: React.FC<HalfCircleProps> = ({
   const [currentValue, setCurrentValue] = useState(value);
 
   useEffect(() => {
-    console.log("Current value updated to:", value);
     setCurrentValue(value);
   }, [value]);
 

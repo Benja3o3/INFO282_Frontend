@@ -7,9 +7,9 @@ const onclickData = () => {
 };
 
 interface IndicadorTableProps {
-  selectedNameMap: number;
   cut: number;
   type: string;
+  onButtonCategoryChange: (categoryName: string) => void; // Add this prop
 }
 
 type Diccionario = {
@@ -20,9 +20,9 @@ type Diccionario = {
 };
 
 export default function IndicatorTable({
-  selectedNameMap,
   cut,
   type,
+  onButtonCategoryChange,
 }: IndicadorTableProps) {
   const [selectedIndicator, setSelectedIndicator] = useState<string | null>(
     null
@@ -40,15 +40,13 @@ export default function IndicatorTable({
     fetch(buildURL(type))
       .then((response) => response.json())
       .then((json) => setDataDicc(json));
-  }, [selectedIndicator, selectedNameMap]);
+  }, [selectedIndicator, cut]);
 
   const onclick = (buttonName: string) => {
     setSelectedIndicator(buttonName);
     console.log("Nombre Indicador", buttonName);
-    console.log("Nombre p/r/c", selectedNameMap);
-    if (dataDicc) {
-      console.log(dataDicc);
-    }
+    console.log("Nombre p/r/c", cut);
+    onButtonCategoryChange(buttonName);
   };
 
   return (

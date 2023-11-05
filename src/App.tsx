@@ -5,18 +5,23 @@ import { useEffect, useState } from "react";
 import Barometer from "./Components/Barometer.tsx";
 
 export default function App() {
-  const [selectedNameMap, setSelectedNameMap] = useState(0);
+  const [selectCut, setSelectCut] = useState(0);
   const [type, setType] = useState("pais");
   const [bienestar, setBienestar] = useState(0);
+  const [category, setCategory] = useState("");
 
   const handleNameMapChange = (
     cut: number,
     type: string,
     bienestar: number
   ) => {
-    setSelectedNameMap(cut);
+    setSelectCut(cut);
     setType(type);
     setBienestar(bienestar);
+  };
+
+  const handleButtonCategoryChange = (categoryName) => {
+    setCategory(categoryName);
   };
 
   useEffect(() => {
@@ -29,13 +34,13 @@ export default function App() {
     <div className="grid grid-cols-[1fr,1fr,2fr] gap-2 h-screen">
       <div className="bg-slate-200 rounded-lg">
         <IndicatorTable
-          selectedNameMap={selectedNameMap}
-          cut={selectedNameMap}
+          cut={selectCut}
           type={type}
+          onButtonCategoryChange={handleButtonCategoryChange}
         />
       </div>
       <div className="bg-slate-200 rounded-lg">
-        <Charts cut={selectedNameMap} type={type} />
+        <Charts cut={selectCut} type={type} category={category} />
       </div>
       <div className="z-0">
         <Map onNameMapChange={handleNameMapChange} />

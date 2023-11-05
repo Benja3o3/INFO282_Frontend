@@ -151,7 +151,6 @@ export default function Map({ onNameMapChange }: MapProps) {
       .then((response) => response.json())
       .then((json) => {
         const newBienestar = json[0].valor_bienestar;
-        console.log(cut + " " + prop + " " + newBienestar);
         setBienestar(newBienestar);
         onNameMapChange(cut, prop, newBienestar);
       });
