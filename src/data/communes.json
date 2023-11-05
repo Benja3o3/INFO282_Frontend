@@ -2459,34 +2459,6 @@
         "type": "Polygon",
         "coordinates": [
           [
-            [-73.6409, -49.1678],
-            [-73.6437, -49.7941],
-            [-72.8749, -49.8126],
-            [-72.873, -49.1691],
-            [-73.6409, -49.1678]
-          ]
-        ]
-      },
-      "properties": {
-        "objectid": 154,
-        "shape_leng": 0,
-        "dis_elec": 0,
-        "cir_sena": 0,
-        "cod_comuna": 0,
-        "codregion": 0,
-        "st_area_sh": "9306245194.15",
-        "st_length_": 388722.3757,
-        "Region": "Zona sin demarcar",
-        "Comuna": "Zona sin demarcar",
-        "Provincia": "Zona sin demarcar"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
             [-70.6581, -33.3991],
             [-70.6819, -33.403],
             [-70.6516, -33.4321],
