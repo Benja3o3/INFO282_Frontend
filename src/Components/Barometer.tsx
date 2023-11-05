@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { COLOR_WELFARETEST } from "../constants/styles.constants";
 
 interface HalfCircleProps {
   radius: number;
   numberOfSections: number;
-  value: number; // Nuevo prop para el valor (entre 0 y 1)
+  value: number;
 }
 
 const Barometer: React.FC<HalfCircleProps> = ({
@@ -13,7 +13,14 @@ const Barometer: React.FC<HalfCircleProps> = ({
   numberOfSections,
   value,
 }) => {
-  const anglePerSection = 180 / numberOfSections; // Ángulo de cada casilla
+  const [currentValue, setCurrentValue] = useState(value);
+
+  useEffect(() => {
+    console.log("Current value updated to:", value);
+    setCurrentValue(value);
+  }, [value]);
+
+  const anglePerSection = 180 / numberOfSections;
 
   const createSection = (index: number) => {
     const startAngle = index * anglePerSection; // Ángulo de inicio
@@ -43,17 +50,13 @@ const Barometer: React.FC<HalfCircleProps> = ({
     createSection(index)
   );
 
-  // Calcular el ángulo correspondiente al valor entre 0 y 1 (0 a 180 grados)
-  const valueAngle = value * 180;
+  const valueAngle = currentValue * 180;
   const valueAngleRad = valueAngle * (Math.PI / 180);
-
-  // Calcular las coordenadas del punto correspondiente al valor
   const valueX = radius * Math.cos(valueAngleRad);
   const valueY = radius * Math.sin(valueAngleRad);
 
-  // Agregar una línea que marque el valor
-  const lineColor = "black"; // Puedes cambiar el color
-  const lineThickness = 3; // Puedes cambiar el grosor de la línea
+  const lineColor = "black";
+  const lineThickness = 3;
 
   const valueLine = (
     <line

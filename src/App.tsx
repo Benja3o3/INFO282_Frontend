@@ -1,7 +1,7 @@
 import Map from "./Components/Map.tsx";
 import Charts from "./Components/Charts.tsx";
 import IndicatorTable from "./Components/IndicatorTable.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Barometer from "./Components/Barometer.tsx";
 
 export default function App() {
@@ -18,6 +18,12 @@ export default function App() {
     setType(type);
     setBienestar(bienestar);
   };
+
+  useEffect(() => {
+    fetch("http://localhost:5002/pais/")
+      .then((response) => response.json())
+      .then((json) => setBienestar(json[0].valor_bienestar));
+  }, []);
 
   return (
     <div className="grid grid-cols-[1fr,1fr,2fr] gap-2 h-screen">

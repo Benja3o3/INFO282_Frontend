@@ -75,7 +75,42 @@ export default function Map({ onNameMapChange }: MapProps) {
         "<h4>Información</h4> <b> Selecciona un punto en el mapa </b><br />";
     };
 
+    // Definir los rangos y colores para la leyenda
+    const legendColors = [
+      "#FF0000",
+      "#ffa21f",
+      "#ffba5f",
+      "#ede96e",
+      "#a1cc47",
+      "#7cc200",
+    ];
+    const legendLabels = [
+      "[0.00-0.17[",
+      "[0.17-0.33[",
+      "[0.33-0.50[",
+      "[0.50-0.67[",
+      "[0.67-0.83[",
+      "[0.83-1.00]",
+    ];
+
+    // Crear la leyenda
+    const legend = L.control({ position: "bottomright" });
+
+    legend.onAdd = () => {
+      const div = L.DomUtil.create("div", "info legend");
+      div.innerHTML = `<div class="text-center font-bold">Rangos<br></div>`;
+
+      for (let i = 0; i < legendColors.length; i++) {
+        div.innerHTML += `
+          <div class="text-center pl-1 pr-1 rounded-sm" style="background:${legendColors[i]}">${legendLabels[i]}<br></div> 
+        `;
+      }
+
+      return div;
+    };
+
     infoInstance.addTo(map);
+    legend.addTo(map);
 
     setInfoInstance(infoInstance);
     setMapInstance(map);
@@ -85,7 +120,7 @@ export default function Map({ onNameMapChange }: MapProps) {
     };
   }, []);
 
-  const handleLayerClick = (e: any, prop: string, bienestar: number) => {
+  const handleLayerClick = (e: any, prop: string) => {
     const value =
       {
         pais: "COUNTRY",
@@ -108,14 +143,18 @@ export default function Map({ onNameMapChange }: MapProps) {
       };
       infoInstance.addTo(mapInstance);
     }
-    onNameMapChange(cut, prop, bienestar);
 
     const buildURL = (tipo: string) => {
       return `http://localhost:5002/${tipo}/${prop === "pais" ? "" : cut}`;
     };
     fetch(buildURL(prop))
       .then((response) => response.json())
-      .then((json) => setBienestar(json[0].valor_bienestar));
+      .then((json) => {
+        const newBienestar = json[0].valor_bienestar;
+        console.log(cut + " " + prop + " " + newBienestar);
+        setBienestar(newBienestar);
+        onNameMapChange(cut, prop, newBienestar);
+      });
   };
 
   useEffect(() => {
@@ -142,7 +181,7 @@ export default function Map({ onNameMapChange }: MapProps) {
         }
       });
     }
-    layer.on("click", (e) => handleLayerClick(e, propName, bienestar));
+    layer.on("click", (e) => handleLayerClick(e, propName));
   }, [mapInstance, zoomCurrent]);
 
   useEffect(() => {
