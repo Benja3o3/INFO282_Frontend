@@ -20,7 +20,7 @@ export default function App() {
     setBienestar(bienestar);
   };
 
-  const handleButtonCategoryChange = (categoryName) => {
+  const handleButtonCategoryChange = (categoryName: string) => {
     setCategory(categoryName);
   };
 

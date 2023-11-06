@@ -5,8 +5,7 @@ import {
   tecnologico,
   socioEconomico,
   ecologico,
-  movilidad,
-  entretenimiento,
+  cultural,
 } from "../assets";
 
 export const INDICATOR_DATA = [
@@ -35,11 +34,7 @@ export const INDICATOR_DATA = [
     imageUrl: ecologico,
   },
   {
-    name: "Movilidad",
-    imageUrl: movilidad,
-  },
-  {
-    name: "Diversion",
-    imageUrl: entretenimiento,
+    name: "Cultural",
+    imageUrl: cultural,
   },
 ];

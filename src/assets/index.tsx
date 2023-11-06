@@ -4,7 +4,7 @@ import salud from "./health.svg";
 import tecnologico from "./technological.svg";
 import socioEconomico from "./economical.svg";
 import ecologico from "./ecological.svg";
-import movilidad from "./mobility.svg";
+import cultural from "./culture.svg";
 import entretenimiento from "./entertainment.svg";
 
 export {
@@ -14,6 +14,6 @@ export {
   tecnologico,
   socioEconomico,
   ecologico,
-  movilidad,
+  cultural,
   entretenimiento,
 };
