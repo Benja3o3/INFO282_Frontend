@@ -18,11 +18,11 @@ export let SHAPE: Shape = {
   6: [
     "regiones",
     L.geoJSON(regions as FeatureCollection).setStyle(defaultStyle),
-    L.latLngBounds(L.latLng(-17, -65.0), L.latLng(-58.0, -77.0)),
+    L.latLngBounds(L.latLng(-17, -69.0), L.latLng(-58.0, -77.0)),
   ],
   8: [
     "comunas",
     L.geoJSON(communes as FeatureCollection).setStyle(defaultStyle),
-    L.latLngBounds(L.latLng(-16, -65.0), L.latLng(-58.0, -78.0)),
+    L.latLngBounds(L.latLng(-16, -65.0), L.latLng(-58.0, -115.0)),
   ],
 };
