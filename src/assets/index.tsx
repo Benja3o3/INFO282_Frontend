@@ -5,7 +5,6 @@ import tecnologico from "./technological.svg";
 import socioEconomico from "./economical.svg";
 import ecologico from "./ecological.svg";
 import cultural from "./culture.svg";
-import entretenimiento from "./entertainment.svg";
 
 export {
   seguridad,
@@ -15,5 +14,4 @@ export {
   socioEconomico,
   ecologico,
   cultural,
-  entretenimiento,
 };
