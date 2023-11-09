@@ -3,6 +3,7 @@ import Charts from "./Components/Charts.tsx";
 import IndicatorTable from "./Components/IndicatorTable.tsx";
 import { useEffect, useState } from "react";
 import Barometer from "./Components/Barometer.tsx";
+import config from "./config.ts";
 
 export default function App() {
   const [selectCut, setSelectCut] = useState(0);
@@ -25,7 +26,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5002/pais/")
+    fetch(`${config.apiUrl}/pais/`)
       .then((response) => response.json())
       .then((json) => setBienestar(json[0].valor_bienestar));
   }, []);

@@ -12,6 +12,8 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 
+import config from "../config.ts";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -48,7 +50,7 @@ export default function LineChart({ category }: LineChartProps) {
   const [data, setData] = useState<DATAPROPERTY[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5002/regiones/dimension/categoria/${category}`)
+    fetch(`${config.apiUrl}/regiones/dimension/categoria/${category}`)
       .then((response) => response.json())
       .then((json: DATAPROPERTY[]) => {
         const sortedData = json.sort((a, b) => a.region_id - b.region_id);

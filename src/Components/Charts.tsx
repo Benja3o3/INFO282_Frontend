@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Ranking from "./Ranking.tsx";
 import LineChart from "./LineChart.tsx";
 import PieChart from "./PieChart.tsx";
+import config from "../config.ts";
 
 interface ChartProps {
   cut: number;
@@ -15,9 +16,9 @@ export default function Charts({ cut, type, category }: ChartProps) {
   useEffect(() => {
     const buildURL = (tipo: string) => {
       if (type != "pais") {
-        return `http://localhost:5002/${tipo}/dimension/${cut}`;
+        return `${config.apiUrl}/${tipo}/dimension/${cut}`;
       }
-      return `http://localhost:5002/${tipo}/dimension/`;
+      return `${config.apiUrl}/${tipo}/dimension/`;
     };
 
     fetch(buildURL(type))

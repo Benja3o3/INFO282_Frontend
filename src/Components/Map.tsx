@@ -3,6 +3,7 @@ import L, { Map as LeafletMap, GeoJSON, Control } from "leaflet";
 import { SHAPE } from "../constants/layers.constants";
 import { COLOR_WELFARE } from "../constants/styles.constants";
 import "leaflet/dist/leaflet.css";
+import config from "../config.ts";
 
 interface CustomControl extends Control {
   _div: HTMLElement;
@@ -29,13 +30,9 @@ export default function Map({ onNameMapChange }: MapProps) {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:5002/regiones/").then((response) =>
-        response.json()
-      ),
-      fetch("http://localhost:5002/comunas/").then((response) =>
-        response.json()
-      ),
-      fetch("http://localhost:5002/pais/").then((response) => response.json()),
+      fetch(`${config.apiUrl}/regiones/`).then((response) => response.json()),
+      fetch(`${config.apiUrl}/comunas/`).then((response) => response.json()),
+      fetch(`${config.apiUrl}/pais/`).then((response) => response.json()),
     ]).then(([regionesData, comunasData, paisData]) => {
       setBienestarRegion(regionesData);
       setBienestarComuna(comunasData);
@@ -158,7 +155,7 @@ export default function Map({ onNameMapChange }: MapProps) {
     }
 
     const buildURL = (tipo: string) => {
-      return `http://localhost:5002/${tipo}/${prop === "pais" ? "" : cut}`;
+      return `${config.apiUrl}/${tipo}/${prop === "pais" ? "" : cut}`;
     };
     fetch(buildURL(prop))
       .then((response) => response.json())

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import config from "../config.ts";
 
 interface DATAPROPERTY {
   valor_bienestar: number;
@@ -9,7 +10,7 @@ export default function Ranking() {
   const [data, setData] = useState<DATAPROPERTY[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5002/comunas/`)
+    fetch(`${config.apiUrl}/comunas/`)
       .then((response) => response.json())
       .then((json: DATAPROPERTY[]) => {
         const sortedData = json.sort(

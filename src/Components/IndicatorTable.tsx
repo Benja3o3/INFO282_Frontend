@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Indicator from "./Indicator";
 import { INDICATOR_DATA } from "../constants/indicators.constants";
 
+import config from "../config.ts";
+
 const onclickData = () => {
   alert("Exportar datos en CSV o KML");
 };
@@ -32,9 +34,9 @@ export default function IndicatorTable({
   useEffect(() => {
     const buildURL = (tipo: string) => {
       if (type != "pais") {
-        return `http://localhost:5002/${tipo}/dimension/${cut}`;
+        return `${config.apiUrl}/${tipo}/dimension/${cut}`;
       }
-      return `http://localhost:5002/${tipo}/dimension/`;
+      return `${config.apiUrl}/${tipo}/dimension/`;
     };
 
     fetch(buildURL(type))

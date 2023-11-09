@@ -4,6 +4,8 @@ import Arrow from "../assets/Arrow";
 import Dot from "../assets/Dot";
 import PopUp from "./PopUp";
 
+import config from "../config.ts";
+
 interface IndicadorProps {
   progress: number;
   imageUrl: string;
@@ -40,9 +42,9 @@ const Indicator = ({
   useEffect(() => {
     const buildURL = (tipo: string) => {
       if (type != "pais") {
-        return `http://localhost:5002/${tipo}/indicador/${cut}`;
+        return `${config.apiUrl}/${tipo}/indicador/${cut}`;
       }
-      return `http://localhost:5002/${tipo}/indicador/`;
+      return `${config.apiUrl}/${tipo}/indicador/`;
     };
 
     fetch(buildURL(type))
