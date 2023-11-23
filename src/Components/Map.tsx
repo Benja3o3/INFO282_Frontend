@@ -14,6 +14,26 @@ interface MapProps {
   onNameMapChange: (cut: number, type: string, bienestar: number) => void;
 }
 
+const handleMouseOver = (e: L.LeafletMouseEvent) => {
+  // 'layer' es de tipo L.GeoJSON, pero necesitamos asegurarnos de que sea un 'Feature'
+  const layer = e.target as L.GeoJSON;
+
+  // Verifica si 'layer.feature' es un objeto 'Feature' y tiene la propiedad 'Comuna'
+  if (layer.feature && 'properties' in layer.feature && layer.feature.properties.Comuna) {
+    const nombreComuna = layer.feature.properties.Comuna;
+    layer.bindTooltip(nombreComuna, { permanent: true, direction: 'center' }).openTooltip();
+  }
+};
+
+
+
+
+const handleMouseOut = (e: L.LeafletMouseEvent) => {
+  const layer = e.target as L.GeoJSON;
+  layer.closeTooltip();
+};
+
+
 export default function Map({ onNameMapChange }: MapProps) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
@@ -46,7 +66,7 @@ export default function Map({ onNameMapChange }: MapProps) {
       maxBoundsViscosity: 1.0,
       bounceAtZoomLimits: false,
       minZoom: 4,
-      maxZoom: 8,
+      maxZoom: 10,
       zoomSnap: 2,
       zoomDelta: 2,
       zoomControl: false,
@@ -115,6 +135,7 @@ export default function Map({ onNameMapChange }: MapProps) {
 
     setInfoInstance(infoInstance);
     setMapInstance(map);
+    
 
     return () => {
       map.remove();
@@ -209,6 +230,10 @@ export default function Map({ onNameMapChange }: MapProps) {
   useEffect(() => {
     if (dataLoaded && bienestarPais && bienestarRegion && bienestarComuna) {
       layer.eachLayer((geojsonLayer: any) => {
+        geojsonLayer.on({
+          mouseover: handleMouseOver,
+          mouseout: handleMouseOut
+        });
         let bienestar = 0;
         if (propName == "regiones") {
           const id_region = geojsonLayer.feature.properties.codregion;
@@ -240,7 +265,7 @@ export default function Map({ onNameMapChange }: MapProps) {
         });
       });
     }
-  }, [dataLoaded, layer]);
+  }, [dataLoaded, layer,mapInstance]);
 
   return <div id="map" className="h-full w-full rounded-lg" />;
 }
