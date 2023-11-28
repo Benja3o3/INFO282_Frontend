@@ -4,8 +4,30 @@ import { INDICATOR_DATA } from "../constants/indicators.constants";
 
 import config from "../config.ts";
 
-const onclickData = () => {
-  alert("Exportar datos en CSV o KML");
+const onclickData = async () => {
+  try {
+    const response = await fetch(`${config.apiUrl}/regiones/`);
+    const content = await response.text();
+
+    const blob = new Blob([content], { type: "text/plain" });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "Archivo.txt";
+    document.body.appendChild(a);
+    a.click();
+
+    // Eliminar el enlace del DOM después de descargar
+    document.body.removeChild(a);
+
+    // Liberar el objeto URL
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 interface IndicadorTableProps {
