@@ -1,34 +1,9 @@
 import { useEffect, useState } from "react";
 import Indicator from "./Indicator";
 import { INDICATOR_DATA } from "../constants/indicators.constants";
+import ExportDataButton from "./ExportDataButton.tsx";
 
 import config from "../config.ts";
-
-const onclickData = async () => {
-  try {
-    const response = await fetch(`${config.apiUrl}/regiones/`);
-    const content = await response.text();
-
-    const blob = new Blob([content], { type: "text/plain" });
-
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "Archivo.txt";
-    document.body.appendChild(a);
-    a.click();
-
-    // Eliminar el enlace del DOM después de descargar
-    document.body.removeChild(a);
-
-    // Liberar el objeto URL
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 interface IndicadorTableProps {
   cut: number;
@@ -102,14 +77,8 @@ export default function IndicatorTable({
           })}
         </div>
         <hr className="border-2 border-solid rounded-lg border-white mt-2" />
-        <div className="text-white grid place-items-center">
-          <button
-            onClick={onclickData}
-            className="bg-blue-500 p-2 m-2 rounded-full w-1/2 text-[1vw] font-semibold hover:bg-green-400"
-          >
-            Exportar data
-          </button>
-        </div>
+        <div className="text-white grid place-items-center"></div>
+        <ExportDataButton></ExportDataButton>
       </div>
     </div>
   );
