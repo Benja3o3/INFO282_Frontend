@@ -3,7 +3,7 @@ interface AppConfig {
 }
 
 const config: AppConfig = {
-  apiUrl: "http://localhost:5002",
+  apiUrl: "http://146.83.216.166:5002",
 };
 
 export default config;
