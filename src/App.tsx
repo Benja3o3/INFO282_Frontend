@@ -23,6 +23,7 @@ export default function App() {
 
   const handleButtonCategoryChange = (categoryName: string) => {
     setCategory(categoryName);
+    console.log(categoryName);
   };
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function App() {
           onButtonCategoryChange={handleButtonCategoryChange}
         />
       </div>
+
       <div className="bg-slate-200 rounded-lg">
         <Charts cut={selectCut} type={type} category={category} />
       </div>

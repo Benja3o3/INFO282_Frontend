@@ -19,20 +19,22 @@ const handleMouseOver = (e: L.LeafletMouseEvent) => {
   const layer = e.target as L.GeoJSON;
 
   // Verifica si 'layer.feature' es un objeto 'Feature' y tiene la propiedad 'Comuna'
-  if (layer.feature && 'properties' in layer.feature && layer.feature.properties.Comuna) {
+  if (
+    layer.feature &&
+    "properties" in layer.feature &&
+    layer.feature.properties.Comuna
+  ) {
     const nombreComuna = layer.feature.properties.Comuna;
-    layer.bindTooltip(nombreComuna, { permanent: true, direction: 'center' }).openTooltip();
+    layer
+      .bindTooltip(nombreComuna, { permanent: true, direction: "center" })
+      .openTooltip();
   }
 };
-
-
-
 
 const handleMouseOut = (e: L.LeafletMouseEvent) => {
   const layer = e.target as L.GeoJSON;
   layer.closeTooltip();
 };
-
 
 export default function Map({ onNameMapChange }: MapProps) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
@@ -80,7 +82,7 @@ export default function Map({ onNameMapChange }: MapProps) {
     infoInstance.onAdd = function () {
       this._div = L.DomUtil.create(
         "div",
-        "info p-2 bg-white bg-opacity-80 shadow-md rounded-md"
+        "info p-2 bg-white bg-opacity-80 shadow-md rounded-md text-lg"
       );
       this.update();
       return this._div;
@@ -135,7 +137,6 @@ export default function Map({ onNameMapChange }: MapProps) {
 
     setInfoInstance(infoInstance);
     setMapInstance(map);
-    
 
     return () => {
       map.remove();
@@ -232,7 +233,7 @@ export default function Map({ onNameMapChange }: MapProps) {
       layer.eachLayer((geojsonLayer: any) => {
         geojsonLayer.on({
           mouseover: handleMouseOver,
-          mouseout: handleMouseOut
+          mouseout: handleMouseOut,
         });
         let bienestar = 0;
         if (propName == "regiones") {
@@ -265,7 +266,7 @@ export default function Map({ onNameMapChange }: MapProps) {
         });
       });
     }
-  }, [dataLoaded, layer,mapInstance]);
+  }, [dataLoaded, layer, mapInstance]);
 
   return <div id="map" className="h-full w-full rounded-lg" />;
 }

@@ -16,12 +16,12 @@
   "dependencies": {
     "@react-leaflet/core": "^2.1.0",
     "@types/react-leaflet": "^3.0.0",
-    "chart.js": "^4.4.0",
+    "chart.js": "^4.4.1",
+    "katex": "^0.16.9",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
-    "react-dom": "^18.2.0",
-    "katex": "^0.16.9"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.15",

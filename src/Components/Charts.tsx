@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Ranking from "./Ranking.tsx";
 import LineChart from "./LineChart.tsx";
-import PieChart from "./PieChart.tsx";
+import RadarChart from "./radarChart.tsx";
 import config from "../config.ts";
 
 interface ChartProps {
@@ -46,7 +46,7 @@ export default function Charts({ cut, type, category }: ChartProps) {
         </div>
       </div>
       <div className="bg-white p-2 rounded-lg flex-grow">
-        <PieChart labels={labels} data={data} />
+        <RadarChart labels={labels} data={data} />
       </div>
     </div>
   );

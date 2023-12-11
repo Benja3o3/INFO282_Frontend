@@ -28,11 +28,30 @@ ChartJS.register(
 var options = {
   scales: {
     y: {
-      min: 0,
       ticks: { color: "rgba(54, 162, 235, 1)" },
     },
     x: {
+      title: {
+        display: true,
+        text: "Numero de la Region ",
+        color: "rgba(54, 162, 235, 1)",
+        font: {
+          size: 18,
+          weight: "bold" as const,
+        },
+      },
       ticks: { color: "rgba(54, 162, 235, 1)" },
+    },
+  },
+  plugins: {
+    title: {
+      display: true,
+      text: "Distribución de la categoria en las Regiones",
+      color: "rgba(54, 162, 235, 1)",
+      font: {
+        size: 18,
+        weight: "bold" as const,
+      },
     },
   },
 };

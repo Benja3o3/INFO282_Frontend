@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import config from "../config.ts";
 import communes from "../data/communes.json";
 
@@ -14,7 +14,7 @@ function ExportDataButton() {
 <Document>
 ${communes.features
   .map(
-    (feature, index) =>
+    (feature) =>
       `  <Placemark>
     <name>${feature.properties.Comuna}</name>
     <description><![CDATA[
@@ -75,7 +75,7 @@ ${communes.features
   return (
     <button
       onClick={onclickData}
-      className="border border-solid border-blue-500 p-4"
+      className=" rounded-md text-lg bg-blue-500 p-3"
     >
       Exportar Data
     </button>

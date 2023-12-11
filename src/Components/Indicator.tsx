@@ -79,6 +79,16 @@ const Indicator = ({
   const indicators = variables.filter((item) => item.dimension === name);
   let valores = indicators.map((item) => item.indicador);
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <>
       <div
@@ -90,6 +100,8 @@ const Indicator = ({
           <button
             className="rounded-lg overflow-hidden hover:bg-blue-500"
             onClick={handleButtonClick}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <img
               className={`h-[3vw]  ${isSelected ? "bg-white" : ""}`}
@@ -98,17 +110,25 @@ const Indicator = ({
             />
           </button>
         </div>
-        <div className="w-full ml-2 bg-white rounded-full font-bold">
-          <div
-            className="rounded-full text-[1vw] text-center"
-            style={{
-              width: `${Math.round(progress * 100)}%`,
-              backgroundColor: getColor(),
-            }}
-          >
-            {value}%
+        <div className="w-full ml-2">
+          {isHovered && (
+            <div className=" text-center font-bold">
+              <span>{name}</span>
+            </div>
+          )}
+          <div className="w-full ml-2 bg-white rounded-full font-bold">
+            <div
+              className="rounded-full text-[1vw] text-center"
+              style={{
+                width: `${Math.round(progress * 100)}%`,
+                backgroundColor: getColor(),
+              }}
+            >
+              {value}%
+            </div>
           </div>
         </div>
+
         <div className="flex items-center ml-1 rounded-lg">
           <button onClick={handleClick}>
             <div

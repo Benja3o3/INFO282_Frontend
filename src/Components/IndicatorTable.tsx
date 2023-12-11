@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Indicator from "./Indicator";
 import { INDICATOR_DATA } from "../constants/indicators.constants";
 import ExportDataButton from "./ExportDataButton.tsx";
+import SearchBox from "./SearchBox.tsx";
 
 import config from "../config.ts";
 
@@ -26,7 +27,11 @@ export default function IndicatorTable({
   const [selectedIndicator, setSelectedIndicator] = useState<string | null>(
     null
   );
+
   const [dataDicc, setDataDicc] = useState<Diccionario[]>([]);
+  const handleSearch = (query: string) => {
+    alert("Búsqueda realizada: " + query);
+  };
 
   useEffect(() => {
     const buildURL = (tipo: string) => {
@@ -43,8 +48,7 @@ export default function IndicatorTable({
 
   const onclick = (buttonName: string) => {
     setSelectedIndicator(buttonName);
-    console.log("Nombre Indicador", buttonName);
-    console.log("Nombre p/r/c", cut);
+
     onButtonCategoryChange(buttonName);
   };
 
@@ -54,8 +58,8 @@ export default function IndicatorTable({
         BAROMETRO BIENESTAR
       </h1>
 
-      <div className="grid grid-rows-1 ">
-        <div className="">
+      <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col">
           {INDICATOR_DATA.map((indicator) => {
             const matchingData = dataDicc.find(
               (dicc) => dicc.nombre === indicator.name
@@ -77,8 +81,12 @@ export default function IndicatorTable({
           })}
         </div>
         <hr className="border-2 border-solid rounded-lg border-white mt-2" />
-        <div className="text-white grid place-items-center"></div>
-        <ExportDataButton></ExportDataButton>
+        <div className="text-white grid place-items-center">
+          <ExportDataButton />
+        </div>
+        <div className="flex">
+          <SearchBox onSearch={handleSearch} />
+        </div>
       </div>
     </div>
   );
