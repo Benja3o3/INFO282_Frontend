@@ -15,19 +15,10 @@ interface MapProps {
 }
 
 const handleMouseOver = (e: L.LeafletMouseEvent) => {
-  // 'layer' es de tipo L.GeoJSON, pero necesitamos asegurarnos de que sea un 'Feature'
   const layer = e.target as L.GeoJSON;
-
-  // Verifica si 'layer.feature' es un objeto 'Feature' y tiene la propiedad 'Comuna'
-  if (
-    layer.feature &&
-    "properties" in layer.feature &&
-    layer.feature.properties.Comuna
-  ) {
+  if (layer.feature && "properties" in layer.feature && layer.feature.properties.Comuna) {
     const nombreComuna = layer.feature.properties.Comuna;
-    layer
-      .bindTooltip(nombreComuna, { permanent: true, direction: "center" })
-      .openTooltip();
+    layer.bindTooltip(nombreComuna, { permanent: false, direction: "center" }).openTooltip();
   }
 };
 
@@ -188,12 +179,48 @@ export default function Map({ onNameMapChange }: MapProps) {
   };
 
   useEffect(() => {
-    if (mapInstance && layer) {
-      const currentLayer = layer.addTo(mapInstance);
+    if (mapInstance) {
+      const handleZoomEnd = () => {
+        const zoom = mapInstance.getZoom();
+        if (zoom !== zoomCurrent) {
+          // Eliminar todas las etiquetas antes de cambiar la capa
+          layer.eachLayer((layerItem) => {
+            if (layerItem.closeTooltip) {
+              layerItem.closeTooltip();
+            }
+          });
+          
+          setZoomCurrent(zoom);
+        }
+      };
+      
+      mapInstance.on('zoomend', handleZoomEnd);
+  
+      return () => {
+        mapInstance.off('zoomend', handleZoomEnd);
+      };
+    }
+  }, [mapInstance, zoomCurrent, layer]);
 
+  useEffect(() => {
+    
+    if (mapInstance && layer) {
+
+      
+      
+      const currentLayer = layer.addTo(mapInstance);
+      mapInstance.on("zoomstart", () => {
+        mapInstance.eachLayer((layer) => {
+          if (layer instanceof L.GeoJSON) {
+            layer.closeTooltip();
+          }
+        });
+      });
       mapInstance.on("zoomend", (e) => {
         const zoom = e.target.getZoom();
+        
         if (zoom !== zoomCurrent) {
+  
           mapInstance.removeLayer(currentLayer);
           const [prop, newLayer, newBounds] = SHAPE[zoom];
 
@@ -202,7 +229,11 @@ export default function Map({ onNameMapChange }: MapProps) {
           setLayer(newLayer);
           setZoomCurrent(zoom);
           mapInstance.setMaxBounds(newBounds);
-
+          currentLayer.eachLayer((layer) => {
+            if (layer.closeTooltip) {
+              layer.closeTooltip();
+            }
+          });
           infoInstance.update = function () {
             infoInstance._div.innerHTML =
               "<h4>Información</h4> <b> Selecciona un punto en el mapa </b><br />";
