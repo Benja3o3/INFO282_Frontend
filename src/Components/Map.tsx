@@ -14,28 +14,6 @@ interface MapProps {
   onNameMapChange: (cut: number, type: string, bienestar: number) => void;
 }
 
-const handleMouseOver = (e: L.LeafletMouseEvent) => {
-  // 'layer' es de tipo L.GeoJSON, pero necesitamos asegurarnos de que sea un 'Feature'
-  const layer = e.target as L.GeoJSON;
-
-  // Verifica si 'layer.feature' es un objeto 'Feature' y tiene la propiedad 'Comuna'
-  if (
-    layer.feature &&
-    "properties" in layer.feature &&
-    layer.feature.properties.Comuna
-  ) {
-    const nombreComuna = layer.feature.properties.Comuna;
-    layer
-      .bindTooltip(nombreComuna, { permanent: true, direction: "center" })
-      .openTooltip();
-  }
-};
-
-const handleMouseOut = (e: L.LeafletMouseEvent) => {
-  const layer = e.target as L.GeoJSON;
-  layer.closeTooltip();
-};
-
 export default function Map({ onNameMapChange }: MapProps) {
   const [zoomCurrent, setZoomCurrent] = useState<number>(4);
   const [layer, setLayer] = useState<GeoJSON>(SHAPE[4][1]);
@@ -49,6 +27,26 @@ export default function Map({ onNameMapChange }: MapProps) {
   const [bienestarComuna, setBienestarComuna] = useState<any[]>();
   const [bienestarPais, setBienestarPais] = useState<any[]>();
   const [dataLoaded, setDataLoaded] = useState(false);
+
+  const handleMouseOver = (e: L.LeafletMouseEvent) => {
+    const layer = e.target as L.GeoJSON;
+
+    if (
+      layer.feature &&
+      "properties" in layer.feature &&
+      layer.feature.properties.Comuna
+    ) {
+      const nombreComuna = layer.feature.properties.Comuna;
+      layer
+        .bindTooltip(nombreComuna, { permanent: true, direction: "center" })
+        .openTooltip();
+    }
+  };
+
+  const handleMouseOut = (e: L.LeafletMouseEvent) => {
+    const layer = e.target as L.GeoJSON;
+    layer.closeTooltip();
+  };
 
   useEffect(() => {
     Promise.all([
@@ -249,9 +247,6 @@ export default function Map({ onNameMapChange }: MapProps) {
           );
           if (bienestarItem) {
             bienestar = bienestarItem.valor_bienestar;
-            console.log(
-              "Bienestar: " + bienestarItem.valor_bienestar.toFixed(3)
-            );
           }
         } else if (propName == "pais") {
           bienestar = bienestarPais[0].valor_bienestar;

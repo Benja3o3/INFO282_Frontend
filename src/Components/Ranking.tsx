@@ -25,7 +25,7 @@ export default function Ranking() {
       <table className="min-w-max w-full table-auto">
         <thead>
           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-            <th className="py-3 px-6 text-center">Nombre comuna</th>
+            <th className="py-3 px-6 text-center">CUT comuna</th>
             <th className="py-3 px-6 text-center">Valor bienestar</th>
           </tr>
         </thead>
