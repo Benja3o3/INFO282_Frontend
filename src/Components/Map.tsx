@@ -206,8 +206,6 @@ export default function Map({ onNameMapChange }: MapProps) {
     
     if (mapInstance && layer) {
 
-      
-      
       const currentLayer = layer.addTo(mapInstance);
       mapInstance.on("zoomstart", () => {
         mapInstance.eachLayer((layer) => {

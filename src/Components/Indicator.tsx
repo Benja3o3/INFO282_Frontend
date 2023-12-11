@@ -37,6 +37,7 @@ const Indicator = ({
 
   const handleClick = () => {
     setClickButton(!clickButton);
+    console.log(variables);
   };
 
   useEffect(() => {
