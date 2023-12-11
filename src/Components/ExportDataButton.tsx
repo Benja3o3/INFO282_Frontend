@@ -77,7 +77,7 @@ ${communes.features
       onClick={onclickData}
       className=" rounded-md text-lg bg-blue-500 p-3"
     >
-      Exportar Data
+      Exportar Datos
     </button>
   );
 }
