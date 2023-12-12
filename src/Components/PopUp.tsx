@@ -28,9 +28,10 @@ const PopUp: React.FC<PopUpProps> = ({data }) => {
             <p  className="text-sm overflow-hidden"   style={{ maxWidth: '300px', textOverflow: 'ellipsis', whiteSpace: 'nowrap',  textAlign: 'left'  }}> {indicador.descripcion}</p>
             <p><strong>Fuente:</strong> </p>
             <p className="text-sm overflow-hidden" style={{ maxWidth: '300px', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
-            <a href={indicador.fuente} target="_blank" rel="noopener noreferrer">
-              {indicador.fuente}
+            <a href={indicador.fuente ? indicador.fuente.toString() : undefined} target="_blank" rel="noopener noreferrer">
+             {indicador.fuente}
             </a>
+
           </p>
           </div>
 

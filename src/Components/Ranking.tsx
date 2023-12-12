@@ -4,6 +4,7 @@ import config from "../config.ts";
 interface DATAPROPERTY {
   valor_bienestar: number;
   comuna_id: number;
+  nombre_comuna: string; // Agregar esta línea
 }
 
 export default function Ranking() {
