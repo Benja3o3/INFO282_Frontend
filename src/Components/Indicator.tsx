@@ -119,7 +119,6 @@ const Indicator = ({
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    console.log("ENTER")
   };
 
   const handleMouseLeave = () => {
@@ -193,43 +192,40 @@ const Indicator = ({
       </div>
 
     
+{/*indicadores*/}
+<div className={`mt-3 mr-4 mb-3  flex items-center flex-col  ${!isOpen ? "hidden" : ""}` }>
+  <span className="font-roboto font-boldF">Indicadores</span>
 
-      {/*indicadores*/}
-      <div className={`mt-3 mr-4 mb-3  flex items-center flex-col  ${!isOpen ? "hidden" : ""}` }>
-      <span className="font-roboto font-boldF">Indicadores</span>
-            
-        <table className="w-full ml-20">
-        <tbody>
-        </tbody>
-        {indicators.map((indicator) => (
-            <tr key={indicator.indicador}>
-            <td className="text-sm overflow-hidden" style={{ maxWidth: '100px', textOverflow: 'ellipsis', whiteSpace: 'nowrap',  textAlign: 'left'  }}>
-              {indicator.indicador}:
-            </td>
-            <td className="text-sm text-right">
+  <table className="w-full ml-20">
+    <tbody>
+      {indicators.map((indicator) => (
+        <tr key={indicator.indicador}>
+          <td className="text-sm overflow-hidden" style={{ maxWidth: '100px', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
+            {indicator.indicador}:
+          </td>
+          <td className="text-sm text-right">
             <div
-            className="rounded-full"
-            style={{
-              width: "40px", 
-              height: "40px", 
-              borderRadius: "50%", 
-              backgroundColor: getColorValue((indicator.valor)),
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "white", 
-              fontSize: "12px",
-            }}
-
-
-          >
-          {(indicator.valor * 100).toFixed(2)}%
-        </div>
-            </td>
-            </tr>
-          ))}
-        </table>
-      </div>
+              className="rounded-full"
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                backgroundColor: getColorValue((indicator.valor)),
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "white",
+                fontSize: "12px",
+              }}
+            >
+              {(indicator.valor * 100).toFixed(2)}%
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 
 
     </>
