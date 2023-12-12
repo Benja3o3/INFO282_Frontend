@@ -3,7 +3,6 @@ import Ranking from "./Ranking.tsx";
 import LineChart from "./LineChart.tsx";
 import RadarChart from "./radarChart.tsx";
 import config from "../config.ts";
-import Arrow from "../assets/Arrow.svg";
 import ArrowLeft from "../assets/ArrowLeft.svg";
 
 

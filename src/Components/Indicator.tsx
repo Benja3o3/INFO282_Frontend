@@ -2,7 +2,6 @@ import { COLOR_WELFARE } from "../constants/styles.constants";
 import { useEffect, useState } from "react";
 import Arrow from "../assets/Arrow";
 import Dot from "../assets/Dot";
-import PopUp from "./PopUp";
 
 import config from "../config.ts";
 
@@ -26,13 +25,6 @@ interface Variable {
   valor: number;
 }
 
-interface Indicador {
-  nombre: string;
-  prioridad: string;
-  descripcion: string;
-  fuente: string;
-}
-
 const Indicator = ({
   progress,
   imageUrl,
@@ -47,7 +39,7 @@ const Indicator = ({
   
 }: IndicadorProps) => {
   const [clickButton, setClickButton] = useState(false);
-  const [popUpButton, setPopUpButton] = useState(false);
+  const [popUpButton] = useState(false);
   const [variables, setVariables] = useState<Variable[]>([]);
 
   let value = (progress * 100).toFixed(2);

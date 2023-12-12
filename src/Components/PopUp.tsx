@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
-import MathFormula from "./MathFormula";
+import React from "react";
 
 interface PopUpProps {
   name: String;
   data: any;
 }
-interface Indicador {
-  nombre: string;
-  prioridad: string;
-  descripcion: string;
-  fuente: string;
-}
+
 const PopUp: React.FC<PopUpProps> = ({data }) => {
 
   return (

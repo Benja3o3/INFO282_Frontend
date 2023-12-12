@@ -5,15 +5,13 @@ import { useEffect, useState } from "react";
 import Barometer from "./Components/Barometer.tsx";
 import config from "./config.ts";
 import Header from "./Components/Header.tsx";
-import PopUp from "./Components/PopUp.tsx";
-import { Chart } from "chart.js";
 
 export default function App() {
   const [selectCut, setSelectCut] = useState(0);
   const [type, setType] = useState("pais");
   const [bienestar, setBienestar] = useState(0);
   const [category, setCategory] = useState("");
-  const [showCharts, setShowCharts] = useState(true);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
