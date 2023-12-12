@@ -51,8 +51,8 @@ const Barometer: React.FC<HalfCircleProps> = ({
 
   const valueAngle = currentValue * 180;
   const valueAngleRad = valueAngle * (Math.PI / 180);
-  const valueX = radius * Math.cos(valueAngleRad);
-  const valueY = radius * Math.sin(valueAngleRad);
+  const valueX = radius * Math.cos(valueAngleRad) * 8.5;
+  const valueY = radius * Math.sin(valueAngleRad) ;
 
   const lineColor = "black";
   const lineThickness = 3;

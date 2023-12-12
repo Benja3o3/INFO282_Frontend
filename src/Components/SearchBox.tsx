@@ -12,6 +12,7 @@ const SearchBox: React.FC<{ onSearch: (query: string) => void }> = ({
 
   const handleSearch = () => {
     onSearch(searchQuery);
+    
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -36,7 +37,7 @@ const SearchBox: React.FC<{ onSearch: (query: string) => void }> = ({
         onClick={handleSearch}
         className={`px-2 py-2 ml-2 bg-blue-500 text-white rounded h-full`}
       >
-        <Search color="#ffffff" />
+        <Search color="black" />
       </button>
     </div>
   );

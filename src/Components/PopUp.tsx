@@ -1,51 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MathFormula from "./MathFormula";
 
 interface PopUpProps {
-  isOpen: boolean;
-  onClose: () => void;
   name: String;
   data: any;
 }
+interface Indicador {
+  nombre: string;
+  prioridad: string;
+  descripcion: string;
+  fuente: string;
+}
+const PopUp: React.FC<PopUpProps> = ({data }) => {
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, name, data }) => {
-  if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 h-screen w-full">
-      <div className="absolute inset-0 bg-black opacity-50 "></div>
-      <div className="relative z-10 bg-white p-2 rounded-lg shadow-lg h-1/2 w-1/4 ">
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        <div className="text-center">
-          <h1 className="text-[2vw] font-semibold  mb-0 mt-4">
-            Informacion del indicador
-          </h1>
-          <h2 className="text-[1.5vw] font-semibold  mb-2 text-red-500">
-            {name}
-          </h2>
-          <div className="m-2">
-            <p>LISTA DE VARIABLES </p>
-            {data.map((indicator: string) => (
-              <ol key={indicator}>
-                <ol>{indicator}</ol>
-              </ol>
-            ))}
+    <>
+        <div>
+        {data.map((indicador: { indicadoresinfo_id: React.Key | null | undefined; nombre: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; prioridad: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; descripcion: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; fuente: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+          <div className="font-roboto " key={indicador.indicadoresinfo_id}>
+             <h3 className="text-center bg-sectiontext font-roboto" style={{ color: 'white' }}><strong>{indicador.nombre}</strong></h3>
+            <p><strong>Prioridad:</strong></p>
+            <p  className="text-sm overflow-hidden"   style={{ maxWidth: '300px', textOverflow: 'ellipsis', whiteSpace: 'nowrap',  textAlign: 'left'  }}>{indicador.prioridad}</p>
+            <p><strong>Descripción:</strong></p>
+            <p  className="text-sm overflow-hidden"   style={{ maxWidth: '300px', textOverflow: 'ellipsis', whiteSpace: 'nowrap',  textAlign: 'left'  }}> {indicador.descripcion}</p>
+            <p><strong>Fuente:</strong> </p>
+            <p className="text-sm overflow-hidden" style={{ maxWidth: '300px', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textAlign: 'left' }}>
+            <a href={indicador.fuente} target="_blank" rel="noopener noreferrer">
+              {indicador.fuente}
+            </a>
+          </p>
           </div>
-        </div>
-        <div className="text-center">
-          <h2 className="text-[1.5vw] font-semibold">
-            Fórmula de calculo de indicador
-          </h2>
-          <div className="text-2xl">
-            <MathFormula latexString="f(i) = \frac{\alpha}{n} \sum_{i=1}^{n} D" />
-          </div>
-        </div>
+        ))}
       </div>
-    </div>
+    </>
   );
 };
 

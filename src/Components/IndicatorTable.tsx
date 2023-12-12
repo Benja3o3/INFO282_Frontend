@@ -5,6 +5,7 @@ import ExportDataButton from "./ExportDataButton.tsx";
 import SearchBox from "./SearchBox.tsx";
 
 import config from "../config.ts";
+import PopUp from "./PopUp.tsx";
 
 interface IndicadorTableProps {
   cut: number;
@@ -18,17 +19,30 @@ type Diccionario = {
   valor: number;
   comuna_id: number;
 };
+interface Indicador {
+  nombre: string;
+  prioridad: string;
+  descripcion: string;
+  fuente: string;
+}
 
 export default function IndicatorTable({
   cut,
   type,
   onButtonCategoryChange,
 }: IndicadorTableProps) {
-  const [selectedIndicator, setSelectedIndicator] = useState<string | null>(
-    null
-  );
-
+  const [selectedIndicator, setSelectedIndicator] = useState<string | null>(null);
+  const [openIndicator, setOpenIndicator] = useState<string | null>(null);
   const [dataDicc, setDataDicc] = useState<Diccionario[]>([]);
+  const [mostrarResumen, setMostrarResumen] = useState(true);
+  const [_nombre, setNombre] = useState<string | "">("");
+  const [_valores, setValores] = useState<number[] | null>(null);
+  const [_indicadores, setIndicadores] = useState<any>(null);
+  const [_ind, setInd] = useState<any>(null);
+
+
+  
+
   const handleSearch = (query: string) => {
     alert("Búsqueda realizada: " + query);
   };
@@ -46,48 +60,112 @@ export default function IndicatorTable({
       .then((json) => setDataDicc(json));
   }, [selectedIndicator, cut]);
 
-  const onclick = (buttonName: string) => {
-    setSelectedIndicator(buttonName);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${config.apiUrl}/indicadoresData/`);
+        if (!response.ok) {
+          throw new Error(`Error de red - ${response.status}`);
+        }
+        const data = await response.json();
+        setIndicadores(data)
 
+      } catch (error) {
+        console.error('Error al obtener datos de la API:');
+      }
+    };
+
+    fetchData();
+  }, []); // Asegúrate de ajustar las dependencias según tus necesidades
+  
+  
+
+  const onclick = (buttonName: string) => {
+    setOpenIndicator((prevOpenIndicator) =>
+      prevOpenIndicator === buttonName ? null : buttonName
+    );
+
+    setSelectedIndicator(buttonName);
     onButtonCategoryChange(buttonName);
+  };
+  
+  const handleMostrarClick = (nombre: string, valores: any) => {
+    setMostrarResumen(!mostrarResumen);
+    setNombre(nombre)
+    setValores(valores)
+    const indicadoresFiltrados = _indicadores.filter((indicador: { dim_nombre: any; }) => indicador.dim_nombre === nombre);
+    setInd(indicadoresFiltrados)
+  };
+
+  const handleCloseResume = () =>{
+    setMostrarResumen(!mostrarResumen);
   };
 
   return (
-    <div className="p-2 h-screen flex flex-col">
-      <h1 className="text-[2vw] font-semibold text-center">
-        BAROMETRO BIENESTAR
-      </h1>
+<>
+      <div>
+        {mostrarResumen ? (
+          <div className="h-screen flex flex-col shadow-md">
+            <span className="text-center bg-sectiongrey font-roboto font-extrabold">
+              Resumen Indicadores
+            </span>
+            <SearchBox onSearch={handleSearch} />
+            <div className="ml-4 mr-10 justify-center h-screen w-80">
+              <div className="">
+                {INDICATOR_DATA.map((indicator) => {
+                  const matchingData = dataDicc.find(
+                    (dicc) => dicc.nombre === indicator.name
+                  );
+                  const progressValue = matchingData ? matchingData.valor : 0;
+                  
+                  return (
+                    <Indicator
+                      key={indicator.name}
+                      name={indicator.name}
+                      progress={progressValue}
+                      imageUrl={indicator.imageUrl}
+                      onClick={onclick}
+                      type={type}
+                      cut={cut}
+                      isSelected={selectedIndicator === indicator.name}
+                      isOpen={openIndicator === indicator.name}
+                      onToggleOpen={() =>
+                        setOpenIndicator((prevOpenIndicator) =>
+                          prevOpenIndicator === indicator.name ? null : indicator.name
+                        )
+                      }
+                      openResumeClick={(nombre: string, valores: any) => {
+                        handleMostrarClick(nombre, valores);
+                      }}
+                      
+                    />
+                  );
+                })}
+              </div>
+              
+            </div>
 
-      <div className="flex flex-col justify-between h-full">
-        <div className="flex flex-col">
-          {INDICATOR_DATA.map((indicator) => {
-            const matchingData = dataDicc.find(
-              (dicc) => dicc.nombre === indicator.name
-            );
-            const progressValue = matchingData ? matchingData.valor : 0;
-
-            return (
-              <Indicator
-                key={indicator.name}
-                name={indicator.name}
-                progress={progressValue}
-                imageUrl={indicator.imageUrl}
-                onClick={onclick}
-                type={type}
-                cut={cut}
-                isSelected={selectedIndicator === indicator.name}
-              />
-            );
-          })}
-        </div>
-        <hr className="border-2 border-solid rounded-lg border-white mt-2" />
-        <div className="text-white grid place-items-center">
-          <ExportDataButton />
-        </div>
-        <div className="flex">
-          <SearchBox onSearch={handleSearch} />
-        </div>
+            
+          </div>
+        ) : (
+          <div className="h-screen flex flex-col shadow-md">
+            <div className="flex items-center justify-between bg-sectiongrey">
+            <span className="ml-24 text-center  font-roboto font-extrabold">
+                Informacion indicadores
+              </span>
+              <button className="mr-4 text-2xl mb-2"  onClick={handleCloseResume}>x</button>
+            </div>
+            <div className="ml-4 mr-10 justify-center h-screen w-80">
+            <PopUp
+              name={_nombre}
+              data={_ind}
+            />
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+
+
+    </>
   );
 }

@@ -4,12 +4,17 @@ import IndicatorTable from "./Components/IndicatorTable.tsx";
 import { useEffect, useState } from "react";
 import Barometer from "./Components/Barometer.tsx";
 import config from "./config.ts";
+import Header from "./Components/Header.tsx";
+import PopUp from "./Components/PopUp.tsx";
+import { Chart } from "chart.js";
 
 export default function App() {
   const [selectCut, setSelectCut] = useState(0);
   const [type, setType] = useState("pais");
   const [bienestar, setBienestar] = useState(0);
   const [category, setCategory] = useState("");
+  const [showCharts, setShowCharts] = useState(true);
+
 
   const handleNameMapChange = (
     cut: number,
@@ -33,25 +38,30 @@ export default function App() {
   }, []);
 
   return (
-    <div className="grid grid-cols-[1fr,1fr,2fr] gap-2 h-screen">
-      <div className="bg-slate-200 rounded-lg">
-        <IndicatorTable
-          cut={selectCut}
-          type={type}
-          onButtonCategoryChange={handleButtonCategoryChange}
-        />
-      </div>
+    <>
+      <div>
+        <Header></Header>
+        <div className="w-full h-screen bg-back object-cover flex item-center">
 
-      <div className="bg-slate-200 rounded-lg">
-        <Charts cut={selectCut} type={type} category={category} />
+          <IndicatorTable
+              cut={selectCut}
+              type={type}
+              onButtonCategoryChange={handleButtonCategoryChange} />
+          <Charts cut={selectCut} type={type} category={category} />
+
+          <Map onNameMapChange={handleNameMapChange} />
+         
+
+        </div>
+
       </div>
-      <div className="z-0">
-        <Map onNameMapChange={handleNameMapChange} />
-      </div>
-      <div className="absolute bottom-0 mb-2 right-[33%] rounded-lg p-2 bg-white">
-        <Barometer radius={100} numberOfSections={6} value={bienestar} />
-        <h1 className="text-center font-semibold">BAROMETRO</h1>
-      </div>
+      <div className="absolute bottom-0 mb-2 left-1/2 transform -translate-x-1/2 rounded-lg p-2 bg-white" style={{ zIndex: 9999 }}>
+      <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+      <Barometer radius={100} numberOfSections={6} value={bienestar} />
+      <h1 className="text-center font-semibold rounded-lg" >BAROMETRO</h1>
     </div>
-  );
+    </div>
+      </>
+      );
 }
+

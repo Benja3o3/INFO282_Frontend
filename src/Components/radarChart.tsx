@@ -10,8 +10,6 @@ import { Radar } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend, RadialLinearScale);
 
 const options = {
-  responsive: true,
-  maintainAspectRatio: false,
   plugins: {
     title: {
       display: true,

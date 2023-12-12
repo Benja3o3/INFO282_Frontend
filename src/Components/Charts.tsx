@@ -3,6 +3,8 @@ import Ranking from "./Ranking.tsx";
 import LineChart from "./LineChart.tsx";
 import RadarChart from "./radarChart.tsx";
 import config from "../config.ts";
+import Arrow from "../assets/Arrow.svg";
+
 
 interface ChartProps {
   cut: number;
@@ -13,6 +15,8 @@ interface ChartProps {
 export default function Charts({ cut, type, category }: ChartProps) {
   const [labels, setLabels] = useState<string[]>([]);
   const [data, setData] = useState<number[]>([]);
+  const [toggle, setToggle] = useState(false);
+
   useEffect(() => {
     const buildURL = (tipo: string) => {
       if (type != "pais") {
@@ -35,19 +39,32 @@ export default function Charts({ cut, type, category }: ChartProps) {
   }, [cut, type]);
 
   return (
-    <div className="p-2 h-screen flex flex-col">
-      <h1 className="text-[2vw] font-semibold text-center">GRAFICOS</h1>
-      <div className=" grid grid-rows-2 gap-3 mb-2">
-        <div className=" bg-white p-2 rounded-lg">
-          <Ranking />
-        </div>
-        <div className="bg-white p-2 rounded-lg">
-          <LineChart category={category} />
-        </div>
+    <div className="h-screen flex flex-col relative">
+
+  <button 
+  className={`absolute top-1/2 right-0 transform -translate-y-1/2 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 w-12 ${toggle ? '' : 'scale-x-[-1]'}`} 
+  onClick={() => {setToggle(!toggle)}}
+> 
+  <img src={Arrow} alt="Arrow" className="w-6 h-6" />
+</button>
+
+    <div className={`${toggle ? "w-[1.0rem]" : ""}`}>
+      <div className="flex items-center justify-between bg-sectiongrey">
+        <span className="ml-44 text-center font-roboto font-extrabold">
+          Graficos
+        </span>
       </div>
-      <div className="bg-white p-2 rounded-lg flex-grow">
-        <RadarChart labels={labels} data={data} />
+
+      <div className="ml-4 mr-24 justify-center h-screen w-80">
+        <div style={{ width: '400px' }}>
+          <Ranking />
+          <LineChart category={category} />
+          <RadarChart labels={labels} data={data} />
+        </div>
       </div>
     </div>
+
+  </div>
   );
 }
+
