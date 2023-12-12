@@ -82,7 +82,7 @@ const Indicator = ({
   };
 
   const getColor = () => {
-    const progressRanges = [0.0, 0.17, 0.33, 0.5, 0.67, 0.83, 1.0];
+    const progressRanges = [0.0, 0.42, 0.47, 0.5, 0.53, 0.57, 1.0];
     let currentColor = COLOR_WELFARE[0]; // Color predeterminado
 
     for (let i = 0; i < progressRanges.length; i++) {
@@ -94,7 +94,7 @@ const Indicator = ({
     return currentColor;
   };
   const getColorValue = (value: number) => {
-    const progressRanges = [0.0, 0.17, 0.33, 0.5, 0.67, 0.83, 1.0];
+    const progressRanges = [0.0, 0.42, 0.47, 0.5, 0.53, 0.57, 1.0];
     let currentColor = COLOR_WELFARE[0]; // Color predeterminado
   
     for (let i = 0; i < progressRanges.length; i++) {
@@ -119,6 +119,7 @@ const Indicator = ({
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    console.log("ENTER")
   };
 
   const handleMouseLeave = () => {
@@ -129,26 +130,28 @@ const Indicator = ({
 
   return (
     <>
-      <div
-        className={`flex items-center rounded-lg ${
-          isSelected ? "bg-green-400" : ""
+ <div
+        className={`flex items-center  ${
+          isSelected ? "bg-greenselected" : isHovered ? "bg-hovergray" : ""
         }`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
           <div className="flex flex-row items-center">
           <button
-            className="rounded-lg overflow-hidden hover:bg-blue-500"
+            className="rounded-lg overflow-hidden "
             onClick={handleButtonClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
             <img
-              className={`h-12 w-16 mt-5  ${isSelected ? "bg-white" : ""}`}
+              className={`h-12 w-16   ${isSelected ? "" : ""}`}
               src={imageUrl}
               alt={name}
             />
           </button>
         </div>
-        <div className="w-full flex justify-end mt-5  ml-5">
+        <div className="w-full flex justify-end mb-2 ml-5">
           
           {/*Barra de porcentaje*/}
           <div className="w-full ml-25relative">
@@ -171,14 +174,12 @@ const Indicator = ({
           
           {/* Abre variables*/}
           <div className="flex items-center ml-1 mt-5 rounded-lg">
-          <button onClick={handleClick}>
-            <div
-              className={`transform ml-1 ${!clickButton ? "rotate-90" : ""}`}
-            >
-              <Arrow color={`${clickButton ? "gray" : "black"}`} />
-            </div>
-          </button>
-        </div>
+            <button onClick={handleClick}>
+              <div className={`transform ml-1 ${!isOpen ? "rotate-90" : ""}`}>
+                <Arrow color={`${clickButton ? "gray" : "black"}`} />
+              </div>
+            </button>
+          </div>
 
         {/*Abre popup*/}
         <div className="flex mt-5 items-center ml-1 rounded-lg">
@@ -194,7 +195,7 @@ const Indicator = ({
     
 
       {/*indicadores*/}
-      <div className={`mt-5  flex items-center flex-col  ${!isOpen ? "hidden" : ""}` }>
+      <div className={`mt-3 mr-4 mb-3  flex items-center flex-col  ${!isOpen ? "hidden" : ""}` }>
       <span className="font-roboto font-boldF">Indicadores</span>
             
         <table className="w-full ml-20">

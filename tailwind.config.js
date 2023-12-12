@@ -17,10 +17,15 @@ export default {
       selectorgrey: "#dadada",
       sectiongrey: "#f2f2f2",
       sectiontext: "#d9965f",
-      white: "#ffffff"
+      white: "#ffffff",
+      hovergray: "#e1e8f0",
+      greenselected: "#4add82",
+      buttonblue: "#3b82f8"
     },
 
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ]
 };

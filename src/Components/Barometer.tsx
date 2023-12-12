@@ -52,7 +52,7 @@ const Barometer: React.FC<HalfCircleProps> = ({
   const valueAngle = currentValue * 180;
   const valueAngleRad = valueAngle * (Math.PI / 180);
   const valueX = radius * Math.cos(valueAngleRad) * 8.5;
-  const valueY = radius * Math.sin(valueAngleRad) ;
+  const valueY = radius * Math.sin(valueAngleRad);
 
   const lineColor = "black";
   const lineThickness = 3;
@@ -69,11 +69,13 @@ const Barometer: React.FC<HalfCircleProps> = ({
   );
 
   return (
-    <div className="rotate-180 p-2">
+    <div className="rotate-180 p-2 ">
       <svg
         width={radius * 2}
         height={radius}
         viewBox={`-${radius} 0 ${radius * 2} ${radius}`}
+        style={{ filter: "drop-shadow(5px -5px 5px rgba(0, 0, 0, 0.3))" }}
+
       >
         {sections}
         {valueLine}

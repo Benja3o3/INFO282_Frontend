@@ -103,14 +103,16 @@ export default function IndicatorTable({
 
   return (
 <>
-      <div>
+        <div className="">
         {mostrarResumen ? (
           <div className="h-screen flex flex-col shadow-md">
             <span className="text-center bg-sectiongrey font-roboto font-extrabold">
               Resumen Indicadores
             </span>
-            <SearchBox onSearch={handleSearch} />
-            <div className="ml-4 mr-10 justify-center h-screen w-80">
+                            
+                <ExportDataButton />
+            <div className="justify-center h-screen w-80   overflow-auto relative  scrollbar-hide">
+
               <div className="">
                 {INDICATOR_DATA.map((indicator) => {
                   const matchingData = dataDicc.find(
@@ -142,7 +144,9 @@ export default function IndicatorTable({
                   );
                 })}
               </div>
-              
+
+
+
             </div>
 
             
@@ -150,12 +154,12 @@ export default function IndicatorTable({
         ) : (
           <div className="h-screen flex flex-col shadow-md">
             <div className="flex items-center justify-between bg-sectiongrey">
-            <span className="ml-24 text-center  font-roboto font-extrabold">
+            <span className="ml-16 text-center font-roboto font-extrabold">
                 Informacion indicadores
               </span>
-              <button className="mr-4 text-2xl mb-2"  onClick={handleCloseResume}>x</button>
+              <button className=" text-2xl"  onClick={handleCloseResume}>x</button>
             </div>
-            <div className="ml-4 mr-10 justify-center h-screen w-80">
+            <div className="justify-center h-screen w-80">
             <PopUp
               name={_nombre}
               data={_ind}

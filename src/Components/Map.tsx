@@ -16,9 +16,30 @@ interface MapProps {
 
 const handleMouseOver = (e: L.LeafletMouseEvent) => {
   const layer = e.target as L.GeoJSON;
-  if (layer.feature && "properties" in layer.feature && layer.feature.properties.Comuna) {
-    const nombreComuna = layer.feature.properties.Comuna;
-    layer.bindTooltip(nombreComuna, { permanent: false, direction: "center" }).openTooltip();
+  let content = "";
+
+  if (layer.feature && "properties" in layer.feature) {
+    if (layer.feature.properties.Comuna) {
+      content = layer.feature.properties.Comuna;
+    } else if (layer.feature.properties.Region) {
+      content = layer.feature.properties.Region;
+    } else if (layer.feature.properties.COUNTRY) {
+      content = layer.feature.properties.COUNTRY;
+    } 
+  }
+
+  if (content) {
+    // Calcular el tamaño del tooltip para centrarlo correctamente
+    const tooltipWidth = content.length * 5; // Ajusta según sea necesario
+
+    // Calcular la posición del centro
+    const xOffset = -tooltipWidth / 2;
+    const yOffset = 0;
+
+    layer.bindTooltip(content, {
+      permanent: false,
+      offset: [xOffset, yOffset],
+    }).openTooltip();
   }
 };
 
@@ -299,23 +320,23 @@ export default function Map({ onNameMapChange }: MapProps) {
     }
     
   }, [dataLoaded, layer, mapInstance]);
-  //Busqueda
-  const [searchResult, setSearchResult] = useState<any | null>(null);
-  const [searchInput, setSearchInput] = useState<any| null>(null);
+  // //Busqueda
+  // const [searchResult, setSearchResult] = useState<any | null>(null);
+  // const [searchInput, setSearchInput] = useState<any| null>(null);
   
-  const searchComunaByNombre = (nombre_comuna: string) => {
-    const foundComuna = bienestarComuna.find(
-      (item: any) => item.nombre_comuna === nombre_comuna
-    );
+  // const searchComunaByNombre = (nombre_comuna: string) => {
+  //   const foundComuna = bienestarComuna.find(
+  //     (item: any) => item.nombre_comuna === nombre_comuna
+  //   );
   
-    setSearchResult(foundComuna || null);
-    console.log(foundComuna);
-  };
+  //   setSearchResult(foundComuna || null);
+  //   console.log(foundComuna);
+  // };
   
 
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-  };
+  // const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchInput(e.target.value);
+  // };
 
   // const handleSearchButtonClick = () => {
   //   const comunaNombre = searchInput.toLowerCase(); // Convierte a minúsculas

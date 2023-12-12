@@ -67,6 +67,10 @@ ${communes.features
 
       // Liberar el objeto URL
       window.URL.revokeObjectURL(url);
+      alert("El archivo se ha descargado exitosamente.");
+
+
+
     } catch (error) {
       console.log(error);
     }
@@ -75,9 +79,12 @@ ${communes.features
   return (
     <button
       onClick={onclickData}
-      className=" rounded-md text-lg bg-blue-500 p-3"
+      className="text-white text-center bg-buttonblue font-roboto font-extrabold"
     >
+      <div className=" my-2 ">
+
       Exportar Datos
+      </div>
     </button>
   );
 }

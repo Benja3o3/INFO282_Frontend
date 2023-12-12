@@ -14,6 +14,7 @@ export default function App() {
   const [bienestar, setBienestar] = useState(0);
   const [category, setCategory] = useState("");
   const [showCharts, setShowCharts] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 
   const handleNameMapChange = (
@@ -37,12 +38,25 @@ export default function App() {
       .then((json) => setBienestar(json[0].valor_bienestar));
   }, []);
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const umbralAnchoVentana = 1240; 
+
   return (
     <>
-      <div>
+      <div className="overflow-hidden">
         <Header></Header>
         <div className="w-full h-screen bg-back object-cover flex item-center">
-
           <IndicatorTable
               cut={selectCut}
               type={type}
@@ -55,12 +69,15 @@ export default function App() {
         </div>
 
       </div>
-      <div className="absolute bottom-0 mb-2 left-1/2 transform -translate-x-1/2 rounded-lg p-2 bg-white" style={{ zIndex: 9999 }}>
-      <div style={{ backgroundColor: 'white', padding: '10px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
-      <Barometer radius={100} numberOfSections={6} value={bienestar} />
-      <h1 className="text-center font-semibold rounded-lg" >BAROMETRO</h1>
-    </div>
-    </div>
+
+      {windowWidth > umbralAnchoVentana && (
+        <div className="absolute bottom-0 mb-2 left-1/2 transform -translate-x-1/2 rounded-lg p-2" style={{ zIndex: 9999 }}>
+          <div style={{ padding: '10px', borderRadius: '10px' }}>
+            <Barometer radius={100} numberOfSections={6} value={bienestar} />
+            <h1 className="text-center font-roboto font-bold rounded-lg bg-white shadow-md">BAROMETRO</h1>
+          </div>
+        </div>
+      )}
       </>
       );
 }
