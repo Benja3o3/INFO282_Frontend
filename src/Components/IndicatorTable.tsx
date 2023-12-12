@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Indicator from "./Indicator";
 import { INDICATOR_DATA } from "../constants/indicators.constants";
 import ExportDataButton from "./ExportDataButton.tsx";
-import SearchBox from "./SearchBox.tsx";
 
 import config from "../config.ts";
 import PopUp from "./PopUp.tsx";
@@ -19,12 +18,6 @@ type Diccionario = {
   valor: number;
   comuna_id: number;
 };
-interface Indicador {
-  nombre: string;
-  prioridad: string;
-  descripcion: string;
-  fuente: string;
-}
 
 export default function IndicatorTable({
   cut,
@@ -39,13 +32,6 @@ export default function IndicatorTable({
   const [_valores, setValores] = useState<number[] | null>(null);
   const [_indicadores, setIndicadores] = useState<any>(null);
   const [_ind, setInd] = useState<any>(null);
-
-
-  
-
-  const handleSearch = (query: string) => {
-    alert("Búsqueda realizada: " + query);
-  };
 
   useEffect(() => {
     const buildURL = (tipo: string) => {
